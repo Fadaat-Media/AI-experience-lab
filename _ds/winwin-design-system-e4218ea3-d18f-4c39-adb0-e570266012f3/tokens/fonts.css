@@ -1,0 +1,4 @@
+/* Webfonts. Readex Pro is the primary Arabic/Latin UI face in the Winwin app screens.
+   Cairo, IBM Plex Sans Arabic, Tajawal, Rubik, Inter, Roboto, Poppins also appear in the file.
+   Lusail+ and Bahij TheSansArabic are proprietary and NOT shipped — they fall back to Readex Pro / Cairo. */
+@import url('https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200;300;400;500;600;700&family=Cairo:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Tajawal:wght@400;500;700&family=Rubik:wght@400;500&family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&family=Poppins:wght@400;500;600&display=swap');
