@@ -25,6 +25,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&amp;display=swap">
 <script src="lamp.js"></script>
+<script src="i18n-ar.js?v=11"></script>
 <script src="./image-slot.js"></script>
 <style>
 [data-noscrollbar]::-webkit-scrollbar{display:none;width:0;height:0}
@@ -112,10 +113,10 @@ input[type=range]{accent-color:#3FE0FF}
 <section id="network" data-screen-label="Our network" aria-label="Our network" style="position:relative;z-index:2;padding:40px 0 0;display:flex;flex-direction:column;gap:22px">
   <div style="max-width:1360px;width:100%;margin:0 auto;padding:0 max(20px,4vw);display:flex;align-items:center;gap:16px">
     <span style="font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:#8FB4FF;font-weight:500;white-space:nowrap">Across our network</span>
-    <span aria-hidden="true" style="flex:1;height:1px;background:linear-gradient(90deg, rgba(63,224,255,0.4), transparent)"></span>
+    <span data-flip-rtl="" aria-hidden="true" style="flex:1;height:1px;background:linear-gradient(90deg, rgba(63,224,255,0.4), transparent)"></span>
   </div>
   <div style="display:flex;flex-direction:column;gap:14px;padding:28px 0;margin:-28px 0;-webkit-mask-image:linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);mask-image:linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent)">
-    <div style="overflow:hidden;padding:28px 0;margin:-28px 0">
+    <div dir="ltr" style="overflow:hidden;padding:28px 0;margin:-28px 0">
       <div style="display:flex;gap:14px;width:max-content;animation:wwMarquee {{ mqDur }} linear infinite" style-hover="animation-play-state:paused">
         <sc-for list="{{ logosA }}" as="lg" hint-placeholder-count="8">
           <div title="{{ lg.name }}" style="flex:none;width:184px;height:92px;display:flex;align-items:center;justify-content:center;border-radius:18px;background:linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.015));border:1px solid rgba(150,190,255,0.14);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:border-color .4s, box-shadow .4s, transform .4s" style-hover="border-color:rgba(63,224,255,0.55);box-shadow:0 0 30px -6px rgba(63,224,255,0.55);transform:translateY(-3px)">
@@ -208,7 +209,7 @@ input[type=range]{accent-color:#3FE0FF}
 <sc-if value="{{ isV2 }}" hint-placeholder-val="{{ false }}">
 
 <section id="o2-top" data-screen-label="O2 Hero" style="position:relative;z-index:2;max-width:1360px;margin:0 auto;min-height:min(86vh,780px);box-sizing:border-box;padding:clamp(56px,8vw,96px) max(20px,4vw) clamp(40px,6vw,72px);display:flex;align-items:center">
-  <div aria-hidden="true" style="position:absolute;top:0;bottom:0;left:50%;width:100vw;margin-left:-50vw;z-index:-1;overflow:hidden;pointer-events:none;mix-blend-mode:screen;-webkit-mask-image:linear-gradient(90deg, transparent 0%, transparent 34%, rgba(0,0,0,0.35) 46%, rgba(0,0,0,0.8) 58%, #000 68%, #000 92%, transparent 100%), linear-gradient(180deg, transparent 0%, #000 22%, #000 74%, transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg, transparent 0%, transparent 34%, rgba(0,0,0,0.35) 46%, rgba(0,0,0,0.8) 58%, #000 68%, #000 92%, transparent 100%), linear-gradient(180deg, transparent 0%, #000 22%, #000 74%, transparent 100%);mask-composite:intersect">
+  <div data-hero-bg="" aria-hidden="true" style="position:absolute;top:0;bottom:0;left:50%;width:100vw;margin-left:-50vw;z-index:-1;overflow:hidden;pointer-events:none;mix-blend-mode:screen;-webkit-mask-image:linear-gradient(90deg, transparent 0%, transparent 34%, rgba(0,0,0,0.35) 46%, rgba(0,0,0,0.8) 58%, #000 68%, #000 92%, transparent 100%), linear-gradient(180deg, transparent 0%, #000 22%, #000 74%, transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg, transparent 0%, transparent 34%, rgba(0,0,0,0.35) 46%, rgba(0,0,0,0.8) 58%, #000 68%, #000 92%, transparent 100%), linear-gradient(180deg, transparent 0%, #000 22%, #000 74%, transparent 100%);mask-composite:intersect">
     <video ref="{{ heroVidRef }}" src="assets/hero-video.mp4" autoplay muted loop playsinline disablePictureInPicture style="position:absolute;right:-6%;top:-4%;width:min(78vw,1200px);aspect-ratio:16/9;height:auto;object-fit:cover;object-position:0 0;transform:scale(1.32) translateZ(0);transform-origin:0 0;pointer-events:none;filter:contrast(1.08) saturate(1.12);backface-visibility:hidden"></video>
   </div>
   <div style="position:relative;max-width:620px;display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:28px">
@@ -218,30 +219,33 @@ input[type=range]{accent-color:#3FE0FF}
 </section>
 
 <header style="position:sticky;top:14px;z-index:50;display:flex;justify-content:center;padding:0 16px;pointer-events:none">
-  <nav aria-label="Main" style="pointer-events:auto;width:min(1120px,100%);min-height:60px;box-sizing:border-box;padding:8px 8px 8px 20px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;position:relative;isolation:isolate;border-radius:9999px;background:linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));border:1px solid rgba(255,255,255,0.28);box-shadow:inset 0 0 22px rgba(255,255,255,0.06), inset 0 -10px 24px -12px rgba(63,160,255,0.18), 0 24px 60px -24px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.18);backdrop-filter:blur(6px) saturate(140%);-webkit-backdrop-filter:blur(6px) saturate(140%)">
+  <nav aria-label="Main" style="pointer-events:auto;width:min(1120px,100%);min-height:60px;box-sizing:border-box;padding-block:8px;padding-inline:24px 8px;display:grid;grid-template-columns:minmax(max-content,1fr) minmax(0,auto) minmax(max-content,1fr);align-items:center;gap:16px;position:relative;isolation:isolate;border-radius:9999px;background:linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));border:1px solid rgba(255,255,255,0.28);box-shadow:inset 0 0 22px rgba(255,255,255,0.06), inset 0 -10px 24px -12px rgba(63,160,255,0.18), 0 24px 60px -24px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.18);backdrop-filter:blur(6px) saturate(140%);-webkit-backdrop-filter:blur(6px) saturate(140%)">
     <span aria-hidden="true" style="position:absolute;inset:1px;border-radius:inherit;pointer-events:none;z-index:-1;background:linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 38%, transparent 52%);mix-blend-mode:screen"></span>
     <a href="#o2-top" aria-label="Fadaat" style="justify-self:start;display:flex;align-items:center;flex:none;gap:20px">
       <img src="assets/fadaat-logo.png" alt="Fadaat" style="height:28px;width:auto;display:block;filter:brightness(0) invert(1)">
       <span aria-hidden="true" style="width:1px;height:28px;background:rgba(255,255,255,0.22)"></span>
     </a>
     <div style="display:flex;align-items:center;gap:2px;overflow-x:auto;min-width:0;scrollbar-width:none">
-      <a href="#o2-services" style="height:38px;padding:0 14px;border-radius:9999px;display:flex;align-items:center;font-size:15px;font-weight:500;color:#FFFFFF;white-space:nowrap;transition:background .25s, color .25s, box-shadow .25s" style-hover="background:rgba(255,255,255,0.12);color:#FFFFFF">AI Features</a>
-      <a href="#o2-products" style="height:38px;padding:0 14px;border-radius:9999px;display:flex;align-items:center;font-size:15px;font-weight:500;color:#FFFFFF;white-space:nowrap;transition:background .25s, color .25s, box-shadow .25s" style-hover="background:rgba(255,255,255,0.12);color:#FFFFFF">AI Products</a>
-      <a href="#next" style="height:38px;padding:0 14px;border-radius:9999px;display:flex;align-items:center;font-size:15px;font-weight:500;color:#FFFFFF;white-space:nowrap;transition:background .25s, color .25s, box-shadow .25s" style-hover="background:rgba(255,255,255,0.12);color:#FFFFFF">The Future</a>
-      <a href="#o2-faq" style="height:38px;padding:0 14px;border-radius:9999px;display:flex;align-items:center;font-size:15px;font-weight:500;color:#FFFFFF;white-space:nowrap;transition:background .25s, color .25s, box-shadow .25s" style-hover="background:rgba(255,255,255,0.12);color:#FFFFFF">FAQ</a>
+      <a data-nav-link="" href="#o2-services" style="height:38px;padding:0 14px;border-radius:9999px;display:flex;align-items:center;font-size:15px;font-weight:500;color:#FFFFFF;white-space:nowrap;transition:background .25s, color .25s, box-shadow .25s" style-hover="background:rgba(255,255,255,0.12);color:#FFFFFF">AI Features</a>
+      <a data-nav-link="" href="#o2-products" style="height:38px;padding:0 14px;border-radius:9999px;display:flex;align-items:center;font-size:15px;font-weight:500;color:#FFFFFF;white-space:nowrap;transition:background .25s, color .25s, box-shadow .25s" style-hover="background:rgba(255,255,255,0.12);color:#FFFFFF">AI Products</a>
+      <a data-nav-link="" href="#next" style="height:38px;padding:0 14px;border-radius:9999px;display:flex;align-items:center;font-size:15px;font-weight:500;color:#FFFFFF;white-space:nowrap;transition:background .25s, color .25s, box-shadow .25s" style-hover="background:rgba(255,255,255,0.12);color:#FFFFFF">The Future</a>
+      <a data-nav-link="" href="#o2-faq" style="height:38px;padding:0 14px;border-radius:9999px;display:flex;align-items:center;font-size:15px;font-weight:500;color:#FFFFFF;white-space:nowrap;transition:background .25s, color .25s, box-shadow .25s" style-hover="background:rgba(255,255,255,0.12);color:#FFFFFF">FAQ</a>
     </div>
-    <a href="#o2-contact" style="justify-self:end;flex:none;height:44px;padding:0 20px;border-radius:9999px;display:flex;align-items:center;gap:8px;background:#FFFFFF;color:#0A2A55;font-size:15px;font-weight:600;box-shadow:0 6px 18px -8px rgba(0,0,0,0.4);transition:background .25s" style-hover="color:#0A2A55;background:#EAF2FF">Contact us <span aria-hidden="true">↗</span></a>
+    <div style="justify-self:end;display:flex;align-items:center;gap:10px">
+      <button type="button" onClick="{{ toggleLang }}" lang="{{ langOtherCode }}" aria-label="{{ langAria }}" style="height:38px;padding:0 12px;border:none;background:transparent;border-radius:9999px;cursor:pointer;color:#FFFFFF;font-family:'Readex Pro',system-ui,sans-serif;font-size:15px;font-weight:500;white-space:nowrap;transition:background .25s" style-hover="background:rgba(255,255,255,0.12)">{{ langOther }}</button>
+      <a href="#o2-contact" style="flex:none;height:44px;padding:0 20px;border-radius:9999px;display:flex;align-items:center;gap:8px;background:#FFFFFF;color:#0A2A55;font-size:15px;font-weight:600;box-shadow:0 6px 18px -8px rgba(0,0,0,0.4);transition:background .25s" style-hover="color:#0A2A55;background:#EAF2FF">Contact us <span aria-hidden="true">↗</span></a>
+    </div>
   </nav>
 </header>
 
 <section id="o2-network" data-screen-label="O2 Our network" aria-label="Our network" style="position:relative;z-index:2;padding:8px 0 24px;display:flex;flex-direction:column;gap:22px">
   <div style="max-width:1360px;width:100%;margin:0 auto;padding:0 max(20px,4vw);display:flex;align-items:center;gap:16px">
     <span style="font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:#8FB4FF;font-weight:500;white-space:nowrap">Across our network</span>
-    <span aria-hidden="true" style="flex:1;height:1px;background:linear-gradient(90deg, rgba(63,224,255,0.4), transparent)"></span>
+    <span data-flip-rtl="" aria-hidden="true" style="flex:1;height:1px;background:linear-gradient(90deg, rgba(63,224,255,0.4), transparent)"></span>
   </div>
   <div style="display:flex;flex-direction:column;gap:14px;padding:28px 0;margin:-28px 0;-webkit-mask-image:linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);mask-image:linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent)">
-    <div style="overflow:hidden;padding:28px 0;margin:-28px 0">
-      <div style="display:flex;gap:14px;width:max-content;animation:wwMarquee {{ mqDur }} linear infinite" style-hover="animation-play-state:paused">
+    <div dir="ltr" style="overflow:hidden;padding:28px 0;margin:-28px 0">
+      <div style="display:flex;gap:14px;width:max-content;animation:wwMarquee {{ mqDur }} linear infinite {{ mqDir }}" style-hover="animation-play-state:paused">
         <sc-for list="{{ logosA }}" as="lg" hint-placeholder-count="8">
           <div title="{{ lg.name }}" style="flex:none;width:184px;height:92px;display:flex;align-items:center;justify-content:center;border-radius:18px;background:linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.015));border:1px solid rgba(150,190,255,0.14);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:border-color .4s, box-shadow .4s, transform .4s" style-hover="border-color:rgba(63,224,255,0.55);box-shadow:0 0 30px -6px rgba(63,224,255,0.55);transform:translateY(-3px)">
             <span role="img" aria-label="{{ lg.name }}" style="width:132px;height:52px;display:block;background-image:{{ lg.bgUrl }};background-size:contain;background-repeat:no-repeat;background-position:center;filter:brightness(0) invert(1);opacity:0.78;transition:filter .4s, opacity .4s" style-hover="filter:none;opacity:1"></span>
@@ -262,13 +266,13 @@ input[type=range]{accent-color:#3FE0FF}
     <div style="display:flex;flex-direction:column;align-items:center;gap:16px">
       <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center">
         <sc-for list="{{ o2Chips }}" as="c" hint-placeholder-count="3">
-          <button onClick="{{ c.onClick }}" style="display:flex;align-items:center;gap:10px;height:44px;padding:0 18px 0 8px;border-radius:9999px;border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.color }};font-size:15px;font-weight:600;cursor:pointer;transition:background .4s, border-color .4s, color .4s">
+          <button onClick="{{ c.onClick }}" style="display:flex;align-items:center;gap:10px;height:44px;padding-block:0;padding-inline:8px 18px;border-radius:9999px;border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.color }};font-size:15px;font-weight:600;cursor:pointer;transition:background .4s, border-color .4s, color .4s">
             <span style="width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;background:{{ c.iconBg }};color:#7FE7FF">{{ c.glyph }}</span>{{ c.name }}
           </button>
         </sc-for>
       </div>
     </div>
-    <div ref="{{ o2TrackRef }}" onScroll="{{ o2OnScroll }}" onPointerDown="{{ o2DragDown }}" onPointerMove="{{ o2DragMove }}" onPointerUp="{{ o2DragUp }}" onPointerLeave="{{ o2DragUp }}" onDragStart="{{ o2NoDrag }}" style="position:relative;display:flex;align-items:flex-start;gap:16px;cursor:grab;user-select:none;-webkit-mask-image:{{ o2Mask }};mask-image:{{ o2Mask }};overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:4px 2px 8px;margin:0 -2px">
+    <div data-o2-track="" ref="{{ o2TrackRef }}" onScroll="{{ o2OnScroll }}" onPointerDown="{{ o2DragDown }}" onPointerMove="{{ o2DragMove }}" onPointerUp="{{ o2DragUp }}" onPointerLeave="{{ o2DragUp }}" onDragStart="{{ o2NoDrag }}" style="position:relative;display:flex;align-items:flex-start;gap:16px;cursor:grab;user-select:none;-webkit-mask-image:{{ o2Mask }};mask-image:{{ o2Mask }};overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:4px 2px 8px;margin:0 -2px">
       <sc-for list="{{ o2Cards }}" as="k" hint-placeholder-count="4">
         <article onClick="{{ k.onClick }}" style="flex:0 0 clamp(260px,26vw,320px);scroll-snap-align:start;position:relative;border-radius:22px;overflow:hidden;border:1px solid {{ k.border }};background:{{ k.bg }};backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);padding:24px;display:flex;flex-direction:column;gap:14px;height:320px;cursor:pointer;transition:border-color .5s, background .5s, transform .4s cubic-bezier(.2,.7,.2,1)" style-hover="transform:translateY(-4px);border-color:rgba(63,224,255,0.55)">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
@@ -294,7 +298,7 @@ input[type=range]{accent-color:#3FE0FF}
         </article>
       </sc-for>
     </div>
-    <div aria-hidden="true" style="position:relative;width:min(360px,70%);height:4px;margin:0 auto;border-radius:9999px;background:rgba(150,190,255,0.18)">
+    <div data-flip-rtl="" aria-hidden="true" style="position:relative;width:min(360px,70%);height:4px;margin:0 auto;border-radius:9999px;background:rgba(150,190,255,0.18)">
       <div style="position:absolute;top:0;bottom:0;left:{{ o2ThumbL }};width:{{ o2ThumbW }};border-radius:9999px;background:linear-gradient(90deg,#2F6BFF,#3FE0FF);box-shadow:0 0 10px rgba(63,224,255,0.5);transition:left .15s linear"></div>
     </div>
   </div>
@@ -381,7 +385,7 @@ input[type=range]{accent-color:#3FE0FF}
     <sc-for list="{{ faqs }}" as="q" hint-placeholder-count="7">
       <div style="position:relative;border-radius:20px;overflow:hidden;border:1px solid {{ q.border }};background:{{ q.bg }};backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:{{ q.shadow }};opacity:{{ q.op }};transform:{{ q.tf }};transform-origin:50% 0;transition:opacity .8s ease {{ q.delay }}, transform 1s cubic-bezier(.2,.7,.2,1) {{ q.delay }}, border-color .5s, background .5s, box-shadow .5s">
         <span aria-hidden="true" style="position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg, transparent, #3FE0FF, transparent);transform:scaleX({{ q.sweep }});transition:transform .9s cubic-bezier(.2,.7,.2,1)"></span>
-        <button onClick="{{ q.toggle }}" aria-expanded="{{ q.open }}" style="width:100%;display:flex;align-items:center;gap:18px;padding:22px 22px 22px 24px;background:none;border:none;color:#EAF2FF;text-align:left;cursor:pointer">
+        <button onClick="{{ q.toggle }}" aria-expanded="{{ q.open }}" style="width:100%;display:flex;align-items:center;gap:18px;padding-block:22px 22px;padding-inline:24px 22px;background:none;border:none;color:#EAF2FF;text-align:left;cursor:pointer">
           <span style="flex:none;font-size:13px;font-weight:600;letter-spacing:0.1em;color:{{ q.numColor }};transition:color .4s">{{ q.num }}</span>
           <span style="flex:1;font-size:clamp(17px,1.5vw,20px);font-weight:500;line-height:1.35;text-wrap:pretty">{{ q.q }}</span>
           <span aria-hidden="true" style="flex:none;position:relative;width:38px;height:38px;border-radius:50%;border:1px solid {{ q.border }};background:{{ q.iconBg }};display:flex;align-items:center;justify-content:center;transition:background .4s">
@@ -473,7 +477,7 @@ input[type=range]{accent-color:#3FE0FF}
           <div style="margin-top:6px;opacity:{{ cf5.op }};transform:{{ cf5.tf }};transition:opacity .7s ease {{ cf5.delay }}, transform .8s cubic-bezier(.2,.7,.2,1) {{ cf5.delay }}">
             <button type="submit" onMouseEnter="{{ cBtnIn }}" onMouseLeave="{{ cBtnOut }}" style="position:relative;width:100%;height:64px;padding:2px;border:none;border-radius:9999px;background:transparent;cursor:pointer;overflow:hidden;isolation:isolate;transform:{{ cBtnTf }};transition:transform .4s cubic-bezier(.2,.7,.2,1), box-shadow .4s;box-shadow:{{ cBtnShadow }}" style-active="transform:scale(0.98)">
               <span aria-hidden="true" style="position:absolute;left:50%;top:50%;width:140%;aspect-ratio:1;margin-left:-70%;margin-top:-70%;background:conic-gradient(from 0deg, #2F6BFF, #3FE0FF, #E6FBFF, #3FE0FF, #2F6BFF, #12235A, #2F6BFF);animation:wwSpin 4s linear infinite;z-index:-2"></span>
-              <span style="position:relative;display:flex;align-items:center;justify-content:space-between;gap:12px;height:100%;padding:0 8px 0 28px;border-radius:9999px;background:{{ cBtnBg }};overflow:hidden;transition:background .5s">
+              <span style="position:relative;display:flex;align-items:center;justify-content:space-between;gap:12px;height:100%;padding-block:0;padding-inline:28px 8px;border-radius:9999px;background:{{ cBtnBg }};overflow:hidden;transition:background .5s">
                 <span aria-hidden="true" style="position:absolute;top:0;bottom:0;left:0;width:45%;background:linear-gradient(100deg, transparent, rgba(200,245,255,0.25), transparent);transform:{{ cBtnSweep }};transition:{{ cBtnSweepTr }};pointer-events:none"></span>
                 <span style="position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:1px">
                   <span style="font-size:16px;font-weight:600;color:{{ cBtnColor }};letter-spacing:-0.01em;transition:color .4s">{{ cBtnLabel }}</span>
@@ -636,7 +640,7 @@ input[type=range]{accent-color:#3FE0FF}
           <div style="width:64px;height:64px;flex:none;border-radius:16px;background:#FFFFFF;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px -12px rgba(63,224,255,0.6)"><img src="assets/labeeb-mark.png" alt="Labeeb" style="height:44px;width:auto;display:block"></div>
           <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px">
             <span style="display:inline-flex;align-items:center;gap:7px;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8FB4FF;font-weight:500"><span style="width:6px;height:6px;border-radius:50%;background:#3FE0FF"></span>Super CMS</span>
-            <h2 style="margin:0;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;font-size:clamp(28px,3vw,40px);line-height:1.05;font-weight:600;letter-spacing:-0.025em">Labeeb <span dir="rtl" lang="ar" style="font-family:'Cairo','Readex Pro',system-ui,sans-serif;font-size:0.75em;color:#3FE0FF;letter-spacing:0">لبيب</span></h2>
+            <h2 style="margin:0;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;font-size:clamp(28px,3vw,40px);line-height:1.05;font-weight:600;letter-spacing:-0.025em">Labeeb <span data-dup-ar="" dir="rtl" lang="ar" style="font-family:'Cairo','Readex Pro',system-ui,sans-serif;font-size:0.75em;color:#3FE0FF;letter-spacing:0">لبيب</span></h2>
           </div>
           <button onClick="{{ solClose }}" aria-label="Close" style="flex:none;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.06);color:#EAF2FF;font-size:20px;cursor:pointer" style-hover="background:rgba(255,255,255,0.14)">×</button>
         </div>
@@ -1101,7 +1105,7 @@ input[type=range]{accent-color:#3FE0FF}
                   <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
                     <span style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#7FE7FF;font-weight:500">Translation</span>
                     <div style="position:relative">
-                      <button onClick="{{ trLangToggle }}" aria-haspopup="listbox" aria-expanded="{{ trLangOpen }}" aria-label="Translation language" style="height:36px;display:flex;align-items:center;gap:10px;padding:0 12px 0 14px;border-radius:9999px;border:1px solid {{ trLangBorder }};background:rgba(255,255,255,0.06);color:#FFFFFF;font-size:13px;font-weight:500;cursor:pointer;transition:border-color .2s, background .2s" style-hover="background:rgba(63,224,255,0.12)"><span>{{ trLangLabel }}</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7FE7FF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:{{ trLangChev }};transition:transform .25s"><path d="M6 9l6 6 6-6"></path></svg></button>
+                      <button onClick="{{ trLangToggle }}" aria-haspopup="listbox" aria-expanded="{{ trLangOpen }}" aria-label="Translation language" style="height:36px;display:flex;align-items:center;gap:10px;padding-block:0;padding-inline:14px 12px;border-radius:9999px;border:1px solid {{ trLangBorder }};background:rgba(255,255,255,0.06);color:#FFFFFF;font-size:13px;font-weight:500;cursor:pointer;transition:border-color .2s, background .2s" style-hover="background:rgba(63,224,255,0.12)"><span>{{ trLangLabel }}</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7FE7FF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:{{ trLangChev }};transition:transform .25s"><path d="M6 9l6 6 6-6"></path></svg></button>
                       <sc-if value="{{ trLangOpen }}" hint-placeholder-val="{{ false }}">
                         <div role="listbox" style="position:absolute;right:0;top:calc(100% + 8px);z-index:20;min-width:180px;padding:6px;border-radius:16px;background:rgba(8,24,60,0.96);border:1px solid rgba(63,224,255,0.28);box-shadow:0 24px 50px -16px rgba(0,0,0,0.8), 0 0 40px -20px rgba(63,224,255,0.5);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);display:flex;flex-direction:column;gap:2px">
                           <sc-for list="{{ trLangItems }}" as="lo" hint-placeholder-count="4">
@@ -1195,7 +1199,7 @@ input[type=range]{accent-color:#3FE0FF}
                   <button onClick="{{ askReset }}" style="align-self:flex-start;height:32px;padding:0 12px;border-radius:9999px;border:1px solid #D9DEE8;background:#FFFFFF;color:#4F7BD9;font-family:inherit;font-size:13px;cursor:pointer" style-hover="background:#F1F5FD">أسئلة مقترحة</button>
                 </div>
               </sc-if>
-              <div style="flex:none;display:flex;align-items:center;gap:10px;min-height:64px;padding:8px 14px 8px 8px;border-radius:12px;border:1px solid {{ askBorder }};background:#FFFFFF;transition:border-color .25s, box-shadow .25s;box-shadow:{{ askShadow }}">
+              <div style="flex:none;display:flex;align-items:center;gap:10px;min-height:64px;padding-block:8px 8px;padding-inline:8px 14px;border-radius:12px;border:1px solid {{ askBorder }};background:#FFFFFF;transition:border-color .25s, box-shadow .25s;box-shadow:{{ askShadow }}">
                 <input value="{{ askInput }}" onChange="{{ onAskInput }}" onKeyDown="{{ onAskKey }}" onFocus="{{ askFocus }}" onBlur="{{ askBlur }}" placeholder="اسألني..." aria-label="اسألني" style="flex:1;min-width:0;height:44px;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;color:#1F2A44;text-align:right">
                 <button onClick="{{ chatMic }}" aria-label="تحدث" style="flex:none;width:46px;height:46px;border-radius:50%;border:1px solid #D9DEE8;background:{{ askMicBg }};color:#4F7BD9;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s" style-hover="background:#F1F5FD"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0"></path><path d="M12 18v3"></path></svg></button>
               </div>
@@ -1331,7 +1335,7 @@ class Component extends DCLogic {
   };
 
   state = {
-    podHosts: [{ name: 'Nova', gender: 'female' }, { name: 'Atlas', gender: 'male' }], cfIdx: 0, cfRun: false, cfPaused: false, cfDrag: null, o2LampOn: false, lampOn: true, robotIntro: 'center', formPhase: 'gathering',
+    podHosts: [{ name: 'Nova', gender: 'female' }, { name: 'Atlas', gender: 'male' }], cfIdx: 0, cfRun: false, cfPaused: false, cfDrag: null, lang: 'en', o2LampOn: false, lampOn: true, robotIntro: 'center', formPhase: 'gathering',
     narrow: false, heroIn: false, section: 'overview', active: 0, hover: null, nextIn: false, hoverNext: null, solIn: false, solHover: null, solPop: false,
     tawTab: 0, tawAnim: false, faqOpen: 0, faqIn: false, contactIn: false, cName: '', cEmail: '', cOrg: '', cTopic: 0, cMsg: '', cStatus: 'idle', cErr: '', cDone: false,
     open: null, ovIn: false, guideOpen: false, tour: null, micError: '', tawPlaying: false, tawTime: 0, tawDur: 0, tawMuted: false,
@@ -1651,6 +1655,13 @@ class Component extends DCLogic {
     window.removeEventListener('keydown', this.onKey);
     this.stopAll(); clearInterval(this.revealIv); clearTimeout(this.tabTimer); clearTimeout(this.cfTimer); clearTimeout(this.rbI1); clearTimeout(this.rbI2); clearTimeout(this.lampWait); if (this.lamp) this.lamp.destroy(); if (this.pv) { this.pv.pause(); this.pv.src = ''; }
   }
+  applyLang(lang) { const ar = lang === 'ar'; if (window.FadaatAR) window.FadaatAR.apply(ar);
+    if (!this.D_EN) this.D_EN = { articles: this.D.articles, pods: this.D.pods, tts: 'Welcome to the AI Experience Lab. Type anything here and hear it read aloud in a natural voice.' };
+    const SRC = ar && window.FadaatAR ? window.FadaatAR.data : this.D_EN, OTH = ar ? this.D_EN : (window.FadaatAR ? window.FadaatAR.data : this.D_EN);
+    this.D.articles = SRC.articles; this.D.pods = SRC.pods; const st = this.state, si = Math.min(st.sumSample || 0, SRC.articles.length - 1), pi = Math.min(st.podTopic || 0, SRC.pods.length - 1);
+    this.stopAll && this.stopAll();
+    if (this.voiceObjs && this.voiceObjs.length) { const vi = this.voiceObjs.findIndex(v => v && v.lang && v.lang.toLowerCase().startsWith(ar ? 'ar' : 'en')); if (vi >= 0) this.setState({ ttsVoice: String(vi) }); }
+    this.setState({ sumInput: SRC.articles[si].text, sumResult: null, sumError: '', podLines: this.toLines(SRC.pods[pi].lines), podLabel: SRC.pods[pi].label, podIdx: -1, podPlaying: false, ttsText: (!st.ttsText || st.ttsText === OTH.tts) ? SRC.tts : st.ttsText }); if (this.o2Lamp && this.o2LampEl && window.WWLamp) { this.o2Lamp.destroy(); this.o2Lamp = window.WWLamp(this.o2LampEl, { on: this.state.o2LampOn, cx: ar ? 0.76 : 0.24, baseY: 0.9, scale: 0.72, hint: ar ? 'اسحب الحبل' : 'Pull the cord', onToggle: on => this.setState({ o2LampOn: on }) }); } }
   componentDidUpdate(pp, ps) {
     if (this.bodyEl && this.state.open === 5 && (ps.chatMsgs !== this.state.chatMsgs || ps.chatReveal !== this.state.chatReveal || ps.chatLoading !== this.state.chatLoading)) this.bodyEl.scrollTop = this.bodyEl.scrollHeight;
   }
@@ -2382,7 +2393,7 @@ class Component extends DCLogic {
   o2DragMove = e => { const d = this.o2drag, t = this.o2TrackRef.current; if (!d || !t) return; const dx = e.clientX - d.x; if (!d.moved && Math.abs(dx) > 8) { d.moved = true; t.style.scrollSnapType = 'none'; t.style.scrollBehavior = 'auto'; t.style.cursor = 'grabbing'; } if (!d.moved) return; t.scrollLeft = d.sl - dx; };
   o2DragUp = () => { const t = this.o2TrackRef.current; if (!this.o2drag || !t) return; this.o2dragMoved = this.o2drag.moved; clearTimeout(this.o2dmT); this.o2dmT = setTimeout(() => { this.o2dragMoved = false; }, 60); const mv = this.o2drag.moved; this.o2drag = null; if (mv) { t.style.cursor = 'grab'; t.style.scrollBehavior = 'smooth'; t.style.scrollSnapType = 'x mandatory'; } };
   o2NoDrag = e => e.preventDefault();
-  o2OnScroll = e => { const t = e.currentTarget, c = t.children; const max = t.scrollWidth - t.clientWidth, pr = max > 0 ? t.scrollLeft / max : 0, tw = Math.max(12, Math.min(100, t.clientWidth / t.scrollWidth * 100)); if (Math.abs(pr - (this.state.o2pr || 0)) > 0.004 || tw !== this.state.o2tw) this.setState({ o2pr: pr, o2tw: tw }); if (c.length < 2) return; const step = c[1].offsetLeft - c[0].offsetLeft; const i = t.scrollLeft + t.clientWidth >= t.scrollWidth - 4 ? c.length - 1 : Math.round(t.scrollLeft / step); if (i !== this.state.o2ix) this.setState({ o2ix: i }); };
+  o2OnScroll = e => { const t = e.currentTarget, c = t.children, sl = Math.abs(t.scrollLeft); const max = t.scrollWidth - t.clientWidth, pr = max > 0 ? sl / max : 0, tw = Math.max(12, Math.min(100, t.clientWidth / t.scrollWidth * 100)); if (Math.abs(pr - (this.state.o2pr || 0)) > 0.004 || tw !== this.state.o2tw) this.setState({ o2pr: pr, o2tw: tw }); if (c.length < 2) return; const step = Math.abs(c[1].offsetLeft - c[0].offsetLeft) || 1; const i = sl + t.clientWidth >= t.scrollWidth - 4 ? c.length - 1 : Math.round(sl / step); if (i !== this.state.o2ix) this.setState({ o2ix: i }); };
   o2fListRef = React.createRef();
   o2fDur() { return 5200 / Math.max(0.3, this.props.motionSpeed ?? 1); }
   o2fGo = i => { const n = this.D.upcoming.length; i = ((i % n) + n) % n; this.setState({ o2f: i, o2fRun: false }); clearTimeout(this.o2fT);
@@ -2481,7 +2492,7 @@ class Component extends DCLogic {
           ovShadow: on ? 'inset 0 1px 0 rgba(255,255,255,0.18), 0 60px 120px -40px rgba(0,0,0,0.9), 0 0 80px -30px rgba(63,224,255,0.5)' : 'inset 0 1px 0 rgba(255,255,255,0.08), 0 60px 120px -40px rgba(0,0,0,0.9)',
           ovLeftBg: on ? 'transparent' : 'linear-gradient(180deg, rgba(20,44,100,0.35), rgba(4,10,26,0.2))',
           ovBg: on ? 'linear-gradient(150deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03) 40%, rgba(63,224,255,0.06))' : 'linear-gradient(160deg, rgba(16,30,70,0.85), rgba(5,10,26,0.92))', ovBorder: on ? 'rgba(255,255,255,0.16)' : 'rgba(150,190,255,0.2)',
-          rootFont: on ? "'Inter', sans-serif" : '"Readex Pro","Cairo",system-ui,sans-serif', o2InfoOpen: !!it, o2Info: it ? { slot: 'feat-' + it.id, slotPh: 'Drop a ' + it.name + ' image', cat: cat.name, glyph: cat.glyph, name: it.name, desc: it.desc, pts: it.pts, hasPts: it.pts.length > 0 } : { pts: [], slot: 'feat-x', slotPh: '', cat: '', glyph: '', name: '', desc: '', hasPts: false }, pipScroll: this.pipScroll, o2InfoClose: () => this.setState({ o2info: null }), o2Stop: e => e.stopPropagation() }; })(),
+          rootFont: on ? (s.lang === 'ar' ? '"Readex Pro","Cairo",system-ui,sans-serif' : "'Inter', sans-serif") : '"Readex Pro","Cairo",system-ui,sans-serif', o2InfoOpen: !!it, o2Info: it ? { slot: 'feat-' + it.id, slotPh: 'Drop a ' + it.name + ' image', cat: cat.name, glyph: cat.glyph, name: it.name, desc: it.desc, pts: it.pts, hasPts: it.pts.length > 0 } : { pts: [], slot: 'feat-x', slotPh: '', cat: '', glyph: '', name: '', desc: '', hasPts: false }, pipScroll: this.pipScroll, o2InfoClose: () => this.setState({ o2info: null }), o2Stop: e => e.stopPropagation() }; })(),
       ...(() => { const pi = s.ppIdx, P = O.products[pi], DC = this.DOCS[pi], pg = s.docPage || 1, N = DC ? DC.n : 1, src = k => { const f = 'p' + String(k).padStart(2, '0'); const r = DC && window.__resources && window.__resources[DC.key + '-' + f]; return 'url("' + (r || 'assets/' + (DC ? DC.dir : '') + '/' + f + '.png') + '")'; };
         const slug = P ? P.name.toLowerCase() : 'x', doc = !!DC, isNs = pi === 2, nsVid = (this.props.nasherVideo || '').trim(), lr = window.__resources && window.__resources['nasher-logo'];
         return { ppOpen: pi != null && pi !== 0, ppClose: this.ppClose, ppBoxRef: this.ppBoxRef, pipScroll: this.pipScroll, ppBgOp: s.ppIn ? 1 : 0, ppPE: s.ppIn ? 'auto' : 'none', ppBoxTf: s.ppIn ? 'none' : 'translateY(24px) scale(0.97)', ppDocRef: this.ppDocRef, docThumbsRef: this.docThumbsRef,
@@ -2619,7 +2630,11 @@ class Component extends DCLogic {
         shadow: on ? '0 30px 70px -35px rgba(47,107,255,0.7), inset 0 1px 0 rgba(255,255,255,0.08)' : 'inset 0 1px 0 rgba(255,255,255,0.05)', iconBg: on ? 'rgba(63,224,255,0.18)' : 'rgba(255,255,255,0.03)', numColor: on ? '#3FE0FF' : '#6F8FC9',
         op: vis ? 1 : 0, tf: vis ? 'none' : 'rotateX(-55deg) translateY(30px)', delay: (i * 0.08).toFixed(2) + 's' }; }),
       contactCols: narrow ? 'minmax(0,1fr)' : 'minmax(0,1fr) minmax(0,1fr)', cArtH: narrow ? '560px' : '640px',
-      o2LampRef: this.o2LampRef || (this.o2LampRef = el => { if (this.o2Lamp) { this.o2Lamp.destroy(); this.o2Lamp = null; } if (!el) return; const go = () => { if (!el.isConnected) return; if (!window.WWLamp) return setTimeout(go, 200); this.o2Lamp = window.WWLamp(el, { on: this.state.o2LampOn, cx: 0.24, baseY: 0.9, scale: 0.72, hint: 'Pull the cord', onToggle: on => this.setState({ o2LampOn: on }) }); }; go(); }),
+      o2LampRef: this.o2LampRef || (this.o2LampRef = el => { if (this.o2Lamp) { this.o2Lamp.destroy(); this.o2Lamp = null; } if (!el) return; this.o2LampEl = el; const go = () => { if (!el.isConnected) return; if (!window.WWLamp) return setTimeout(go, 200); this.o2Lamp = window.WWLamp(el, { on: this.state.o2LampOn, cx: 0.24, baseY: 0.9, scale: 0.72, hint: 'Pull the cord', onToggle: on => this.setState({ o2LampOn: on }) }); }; go(); }),
+      langEnOn: s.lang !== 'ar', langArOn: s.lang === 'ar', langEnBg: s.lang !== 'ar' ? '#FFFFFF' : 'transparent', langEnFg: s.lang !== 'ar' ? '#0A2A55' : '#EAF2FF', langArBg: s.lang === 'ar' ? '#FFFFFF' : 'transparent', langArFg: s.lang === 'ar' ? '#0A2A55' : '#EAF2FF',
+      setLangEn: () => this.setState({ lang: 'en' }), setLangAr: () => this.setState({ lang: 'ar' }),
+      toggleLang: () => { const nx = this.state.lang === 'ar' ? 'en' : 'ar'; this.setState({ lang: nx }, () => setTimeout(() => this.applyLang(nx), 0)); }, langOther: s.lang === 'ar' ? 'English' : 'العربية', langOtherCode: s.lang === 'ar' ? 'en' : 'ar', langAria: s.lang === 'ar' ? 'Switch to English' : 'التبديل إلى العربية',
+      mqDir: s.lang === 'ar' ? 'reverse' : 'normal',
       o2LampOff: !s.o2LampOn, o2LampWash: s.o2LampOn ? 1 : 0, o2LampFormOp: s.o2LampOn ? 1 : 0.5, o2LampFormFilter: s.o2LampOn ? 'none' : 'saturate(0.4)', o2LampFormTf: s.o2LampOn ? 'none' : 'translateY(10px)', o2LampFormPE: s.o2LampOn ? 'auto' : 'none',
       o2LampToggle: () => { if (this.state.o2LampOn) return; this.o2Lamp ? this.o2Lamp.setOn(true) : this.setState({ o2LampOn: true }); },
       lampOn: s.lampOn, lampGlow: 0.6, lampFormOp: 1, lampFormFilter: 'none', formPhase: s.formPhase,
