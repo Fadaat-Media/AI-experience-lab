@@ -27,6 +27,7 @@
 <script src="lamp.js"></script>
 <script src="./image-slot.js"></script>
 <style>
+[data-noscrollbar]::-webkit-scrollbar{display:none;width:0;height:0}
 html{scroll-behavior:smooth;background:#002f59}
 body{margin:0;background:#002f59;color:#EAF2FF;font-family:"Readex Pro","Cairo",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 *{box-sizing:border-box}
@@ -67,6 +68,7 @@ input[type=range]{accent-color:#3FE0FF}
 @keyframes wwBreath{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
 @keyframes wwFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 @keyframes wwSheen{0%{transform:translateX(-120%) skewX(-18deg)}60%,100%{transform:translateX(320%) skewX(-18deg)}}
+@keyframes wwFadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @keyframes wwDot{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
 </style>
@@ -117,7 +119,7 @@ input[type=range]{accent-color:#3FE0FF}
       <div style="display:flex;gap:14px;width:max-content;animation:wwMarquee {{ mqDur }} linear infinite" style-hover="animation-play-state:paused">
         <sc-for list="{{ logosA }}" as="lg" hint-placeholder-count="8">
           <div title="{{ lg.name }}" style="flex:none;width:184px;height:92px;display:flex;align-items:center;justify-content:center;border-radius:18px;background:linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.015));border:1px solid rgba(150,190,255,0.14);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:border-color .4s, box-shadow .4s, transform .4s" style-hover="border-color:rgba(63,224,255,0.55);box-shadow:0 0 30px -6px rgba(63,224,255,0.55);transform:translateY(-3px)">
-            <img src="{{ lg.src }}" alt="{{ lg.name }}" loading="lazy" style="max-width:132px;max-height:52px;width:auto;height:auto;display:block;filter:brightness(0) invert(1);opacity:0.78;transition:filter .4s, opacity .4s" style-hover="filter:none;opacity:1">
+            <span role="img" aria-label="{{ lg.name }}" style="width:132px;height:52px;display:block;background-image:{{ lg.bgUrl }};background-size:contain;background-repeat:no-repeat;background-position:center;filter:brightness(0) invert(1);opacity:0.78;transition:filter .4s, opacity .4s" style-hover="filter:none;opacity:1"></span>
           </div>
         </sc-for>
       </div>
@@ -204,50 +206,33 @@ input[type=range]{accent-color:#3FE0FF}
 </div>
 
 <sc-if value="{{ isV2 }}" hint-placeholder-val="{{ false }}">
-<header style="position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(0,47,89,0.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,0.08)">
-  <div style="max-width:1180px;margin:0 auto;min-height:72px;padding:8px 20px;display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-start;column-gap:clamp(32px,5vw,72px);row-gap:4px">
-    <a href="#o2-top" aria-label="Fadaat" style="display:flex;align-items:center;flex:none">
-      <img src="assets/fadaat-logo.png" alt="Fadaat" style="height:34px;width:auto;display:block;filter:brightness(0) invert(1)">
-    </a>
-  </div>
-</header>
 
-<section id="o2-top" data-screen-label="O2 Hero" style="position:relative;z-index:2;max-width:1360px;margin:0 auto;padding:clamp(120px,13vw,160px) max(20px,4vw) clamp(56px,8vw,96px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:clamp(40px,5vw,72px);align-items:center">
-  <div style="display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:28px">
+<section id="o2-top" data-screen-label="O2 Hero" style="position:relative;z-index:2;max-width:1360px;margin:0 auto;min-height:min(86vh,780px);box-sizing:border-box;padding:clamp(56px,8vw,96px) max(20px,4vw) clamp(40px,6vw,72px);display:flex;align-items:center">
+  <div aria-hidden="true" style="position:absolute;top:0;bottom:0;left:50%;width:100vw;margin-left:-50vw;z-index:-1;overflow:hidden;pointer-events:none;mix-blend-mode:screen;-webkit-mask-image:linear-gradient(90deg, transparent 0%, transparent 34%, rgba(0,0,0,0.35) 46%, rgba(0,0,0,0.8) 58%, #000 68%, #000 92%, transparent 100%), linear-gradient(180deg, transparent 0%, #000 22%, #000 74%, transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg, transparent 0%, transparent 34%, rgba(0,0,0,0.35) 46%, rgba(0,0,0,0.8) 58%, #000 68%, #000 92%, transparent 100%), linear-gradient(180deg, transparent 0%, #000 22%, #000 74%, transparent 100%);mask-composite:intersect">
+    <video ref="{{ heroVidRef }}" src="assets/hero-video.mp4" autoplay muted loop playsinline disablePictureInPicture style="position:absolute;right:-6%;top:-4%;width:min(78vw,1200px);aspect-ratio:16/9;height:auto;object-fit:cover;object-position:0 0;transform:scale(1.32) translateZ(0);transform-origin:0 0;pointer-events:none;filter:contrast(1.08) saturate(1.12);backface-visibility:hidden"></video>
+  </div>
+  <div style="position:relative;max-width:620px;display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:28px">
     <h1 style="margin:0;font-size:clamp(46px,6.6vw,88px);line-height:1.02;letter-spacing:-0.035em;font-weight:700;text-wrap:balance;background:linear-gradient(100deg,#4A3BFF 0%,#5A3FE6 32%,#5E8DFF 55%,#62A8FF 72%,#66AEFF 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:0.06em">Smarter media.<br>Built with AI.</h1>
     <p style="margin:0;max-width:560px;font-size:clamp(17px,1.5vw,20px);line-height:1.6;color:#B9CCF0;text-wrap:pretty">Explore intelligent editorial tools, content experiences, actionable analytics, and purpose-built AI products for the future of media.</p>
-    <div style="display:flex;gap:12px;flex-wrap:wrap">
-      <a href="#o2-services" style="height:52px;padding:0 26px;border-radius:9999px;white-space:nowrap;flex:none;background:linear-gradient(135deg,#4FB2FF,#3FE0FF);color:#03122B;display:flex;align-items:center;font-size:15px;font-weight:600" style-hover="color:#03122B;filter:brightness(1.08)">Explore Services ↗</a>
-      <a href="#o2-products" style="height:52px;padding:0 26px;border-radius:9999px;white-space:nowrap;flex:none;border:1px solid rgba(150,190,255,0.3);background:rgba(255,255,255,0.04);color:#EAF2FF;display:flex;align-items:center;font-size:15px;font-weight:500" style-hover="color:#FFFFFF;background:rgba(63,224,255,0.12)">Discover Products</a>
-    </div>
-  </div>
-  <div style="position:relative;width:100%;max-width:460px;aspect-ratio:1/1;justify-self:center">
-    <div aria-hidden="true" style="position:absolute;inset:-2%;border-radius:50%;border:1px dashed rgba(150,190,255,0.18);animation:wwSpin {{ o2fSpin1 }} linear infinite"></div>
-    <div aria-hidden="true" style="position:absolute;inset:22%;border-radius:50%;background:radial-gradient(circle, rgba(63,224,255,0.16), rgba(47,107,255,0.06) 55%, transparent 72%)"></div>
-    <svg viewBox="0 0 400 400" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;overflow:visible">
-      <path d="{{ o2LoopD }}" fill="none" stroke="rgba(63,224,255,0.07)" stroke-width="26"></path>
-      <path d="{{ o2LoopD }}" fill="none" stroke="rgba(150,190,255,0.3)" stroke-width="1.5" stroke-dasharray="2 7" stroke-linecap="round"></path>
-      <path ref="{{ o2Trail2Ref }}" d="{{ o2LoopD }}" fill="none" stroke="#3FE0FF" stroke-width="12" stroke-linecap="round" stroke-dasharray="{{ o2Dash }}" opacity="0.55" style="filter:blur(7px)"></path>
-      <path ref="{{ o2TrailRef }}" d="{{ o2LoopD }}" fill="none" stroke="#9BEFFF" stroke-width="3" stroke-linecap="round" stroke-dasharray="{{ o2Dash }}"></path>
-      <g ref="{{ o2HeadRef }}" transform="translate(200 50)"><circle r="18" fill="rgba(63,224,255,0.14)"></circle><circle r="9" fill="rgba(63,224,255,0.35)"></circle><circle r="4.5" fill="#F2FDFF"></circle></g>
-    </svg>
-    <sc-for list="{{ o2Stages }}" as="st" hint-placeholder-count="6">
-      <button onClick="{{ st.onClick }}" aria-label="{{ st.name }}" style="position:absolute;left:{{ st.left }};top:{{ st.top }};width:0;height:0;padding:0;border:none;background:none;cursor:pointer">
-        <span style="position:absolute;left:-7px;top:-7px;width:14px;height:14px;border-radius:50%;background:{{ st.dotBg }};border:2px solid {{ st.dotBorder }};box-shadow:{{ st.dotShadow }};transform:scale({{ st.dotScale }});transition:background .5s, box-shadow .5s, transform .5s cubic-bezier(.2,.7,.2,1)"></span>
-        <span style="position:absolute;left:0;top:0;transform:{{ st.labelTf }};font-size:12px;font-weight:500;letter-spacing:0.02em;white-space:nowrap;color:{{ st.labelColor }};transition:color .5s">{{ st.name }}</span>
-      </button>
-    </sc-for>
-    <div style="position:absolute;left:50%;top:50%;width:52%;transform:translate(-50%,-50%);display:grid">
-      <sc-for list="{{ o2Slides }}" as="sl" hint-placeholder-count="1">
-        <div aria-hidden="{{ sl.hidden }}" style="grid-area:1 / 1;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;opacity:{{ sl.op }};transform:{{ sl.tf }};filter:{{ sl.blur }};transition:opacity .6s ease, transform .8s cubic-bezier(.2,.7,.2,1), filter .6s ease">
-          <span style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#8FB4FF;white-space:nowrap">{{ sl.n }} / 06</span>
-          <span style="font-size:clamp(22px,2.4vw,30px);font-weight:600;letter-spacing:-0.02em">{{ sl.name }}</span>
-          <span style="font-size:13px;line-height:1.45;color:#B9CCF0;text-wrap:balance">{{ sl.sub }}</span>
-        </div>
-      </sc-for>
-    </div>
   </div>
 </section>
+
+<header style="position:sticky;top:14px;z-index:50;display:flex;justify-content:center;padding:0 16px;pointer-events:none">
+  <nav aria-label="Main" style="pointer-events:auto;width:min(1120px,100%);min-height:60px;box-sizing:border-box;padding:8px 8px 8px 20px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;position:relative;isolation:isolate;border-radius:9999px;background:linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));border:1px solid rgba(255,255,255,0.28);box-shadow:inset 0 0 22px rgba(255,255,255,0.06), inset 0 -10px 24px -12px rgba(63,160,255,0.18), 0 24px 60px -24px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.18);backdrop-filter:blur(6px) saturate(140%);-webkit-backdrop-filter:blur(6px) saturate(140%)">
+    <span aria-hidden="true" style="position:absolute;inset:1px;border-radius:inherit;pointer-events:none;z-index:-1;background:linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 38%, transparent 52%);mix-blend-mode:screen"></span>
+    <a href="#o2-top" aria-label="Fadaat" style="justify-self:start;display:flex;align-items:center;flex:none;gap:20px">
+      <img src="assets/fadaat-logo.png" alt="Fadaat" style="height:28px;width:auto;display:block;filter:brightness(0) invert(1)">
+      <span aria-hidden="true" style="width:1px;height:28px;background:rgba(255,255,255,0.22)"></span>
+    </a>
+    <div style="display:flex;align-items:center;gap:2px;overflow-x:auto;min-width:0;scrollbar-width:none">
+      <a href="#o2-services" style="height:38px;padding:0 14px;border-radius:9999px;display:flex;align-items:center;font-size:15px;font-weight:500;color:#FFFFFF;white-space:nowrap;transition:background .25s, color .25s, box-shadow .25s" style-hover="background:rgba(255,255,255,0.12);color:#FFFFFF">AI Features</a>
+      <a href="#o2-products" style="height:38px;padding:0 14px;border-radius:9999px;display:flex;align-items:center;font-size:15px;font-weight:500;color:#FFFFFF;white-space:nowrap;transition:background .25s, color .25s, box-shadow .25s" style-hover="background:rgba(255,255,255,0.12);color:#FFFFFF">AI Products</a>
+      <a href="#next" style="height:38px;padding:0 14px;border-radius:9999px;display:flex;align-items:center;font-size:15px;font-weight:500;color:#FFFFFF;white-space:nowrap;transition:background .25s, color .25s, box-shadow .25s" style-hover="background:rgba(255,255,255,0.12);color:#FFFFFF">The Future</a>
+      <a href="#o2-faq" style="height:38px;padding:0 14px;border-radius:9999px;display:flex;align-items:center;font-size:15px;font-weight:500;color:#FFFFFF;white-space:nowrap;transition:background .25s, color .25s, box-shadow .25s" style-hover="background:rgba(255,255,255,0.12);color:#FFFFFF">FAQ</a>
+    </div>
+    <a href="#o2-contact" style="justify-self:end;flex:none;height:44px;padding:0 20px;border-radius:9999px;display:flex;align-items:center;gap:8px;background:#FFFFFF;color:#0A2A55;font-size:15px;font-weight:600;box-shadow:0 6px 18px -8px rgba(0,0,0,0.4);transition:background .25s" style-hover="color:#0A2A55;background:#EAF2FF">Contact us <span aria-hidden="true">↗</span></a>
+  </nav>
+</header>
 
 <section id="o2-network" data-screen-label="O2 Our network" aria-label="Our network" style="position:relative;z-index:2;padding:8px 0 24px;display:flex;flex-direction:column;gap:22px">
   <div style="max-width:1360px;width:100%;margin:0 auto;padding:0 max(20px,4vw);display:flex;align-items:center;gap:16px">
@@ -259,7 +244,7 @@ input[type=range]{accent-color:#3FE0FF}
       <div style="display:flex;gap:14px;width:max-content;animation:wwMarquee {{ mqDur }} linear infinite" style-hover="animation-play-state:paused">
         <sc-for list="{{ logosA }}" as="lg" hint-placeholder-count="8">
           <div title="{{ lg.name }}" style="flex:none;width:184px;height:92px;display:flex;align-items:center;justify-content:center;border-radius:18px;background:linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.015));border:1px solid rgba(150,190,255,0.14);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:border-color .4s, box-shadow .4s, transform .4s" style-hover="border-color:rgba(63,224,255,0.55);box-shadow:0 0 30px -6px rgba(63,224,255,0.55);transform:translateY(-3px)">
-            <img src="{{ lg.src }}" alt="{{ lg.name }}" loading="lazy" style="max-width:132px;max-height:52px;width:auto;height:auto;display:block;filter:brightness(0) invert(1);opacity:0.78;transition:filter .4s, opacity .4s" style-hover="filter:none;opacity:1">
+            <span role="img" aria-label="{{ lg.name }}" style="width:132px;height:52px;display:block;background-image:{{ lg.bgUrl }};background-size:contain;background-repeat:no-repeat;background-position:center;filter:brightness(0) invert(1);opacity:0.78;transition:filter .4s, opacity .4s" style-hover="filter:none;opacity:1"></span>
           </div>
         </sc-for>
       </div>
@@ -298,7 +283,7 @@ input[type=range]{accent-color:#3FE0FF}
             <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
               <span style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#8FB4FF">Used by</span>
               <sc-for list="{{ k.logos }}" as="lg" hint-placeholder-count="0">
-                <a href="{{ lg.href }}" target="_blank" rel="noopener" onClick="{{ lg.stop }}" onPointerDown="{{ lg.stopPd }}" aria-label="{{ lg.name }}" title="{{ lg.name }}" style="display:flex;align-items:center;opacity:0.85;cursor:{{ lg.cursor }};transition:opacity .3s, transform .3s" style-hover="opacity:1;transform:translateY(-1px)"><sc-if value="{{ lg.src }}" hint-placeholder-val="{{ false }}"><img src="{{ lg.src }}" alt="{{ lg.name }}" style="display:block;height:24px;width:auto;max-width:110px;object-fit:contain;filter:brightness(0) invert(1)"></sc-if></a>
+                <a href="{{ lg.href }}" target="_blank" rel="noopener" onClick="{{ lg.stop }}" onPointerDown="{{ lg.stopPd }}" aria-label="{{ lg.name }}" title="{{ lg.name }}" style="display:flex;align-items:center;opacity:0.85;cursor:{{ lg.cursor }};transition:opacity .3s, transform .3s" style-hover="opacity:1;transform:translateY(-1px)"><span role="img" aria-label="{{ lg.name }}" style="display:block;height:24px;width:{{ lg.w }};background-image:{{ lg.bg }};background-size:contain;background-repeat:no-repeat;background-position:left center;filter:brightness(0) invert(1)"></span></a>
               </sc-for>
             </div>
           </sc-if>
@@ -323,7 +308,7 @@ input[type=range]{accent-color:#3FE0FF}
   </div>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:16px">
     <sc-for list="{{ o2Products }}" as="p" hint-placeholder-count="4">
-      <a href="#o2-contact" style="position:relative;border-radius:24px;background:{{ p.bg }};color:#EAF2FF;border:1px solid {{ p.border }};backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);padding:26px;min-height:340px;display:flex;flex-direction:column;gap:16px;overflow:hidden;transition:transform .4s cubic-bezier(.2,.7,.2,1), border-color .4s" style-hover="transform:translateY(-4px);border-color:rgba(63,224,255,0.5);color:#EAF2FF" onMouseEnter="{{ p.enter }}" onMouseLeave="{{ p.leave }}">
+      <a href="{{ p.href }}" onClick="{{ p.onClick }}" style="position:relative;cursor:pointer;border-radius:24px;background:{{ p.bg }};color:#EAF2FF;border:1px solid {{ p.border }};backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);padding:26px;min-height:340px;display:flex;flex-direction:column;gap:16px;overflow:hidden;transition:border-color .4s, box-shadow .4s" style-hover="border-color:rgba(63,224,255,0.5);box-shadow:0 30px 60px -30px rgba(63,224,255,0.45);color:#EAF2FF" onMouseEnter="{{ p.enter }}" onMouseLeave="{{ p.leave }}">
         <canvas ref="{{ p.cref }}" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none;opacity:0.7;-webkit-mask-image:linear-gradient(180deg,transparent 0%,transparent 18%,#000 32%,#000 50%,transparent 85%);mask-image:linear-gradient(180deg,transparent 0%,transparent 18%,#000 32%,#000 50%,transparent 85%)"></canvas>
         <div style="position:relative;display:flex;align-items:center;justify-content:space-between;gap:12px">
           <span style="display:inline-flex;align-items:center;gap:8px;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#FFFFFF;font-weight:600;padding:8px 14px;border-radius:9999px;background:rgba(3,18,43,0.72);border:1px solid rgba(63,224,255,0.35);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)"><span style="width:6px;height:6px;border-radius:50%;background:#3FE0FF"></span>{{ p.cat }}</span>
@@ -332,9 +317,10 @@ input[type=range]{accent-color:#3FE0FF}
         <sc-if value="{{ p.hasVideo }}">
           <video src="{{ p.video }}" autoplay="" muted="" loop="" playsinline="" style="position:relative;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:14px;background:#000"></video>
         </sc-if>
-        <div style="position:relative;margin-top:auto;display:flex;flex-direction:column;gap:10px">
-          <div style="font-size:clamp(30px,3vw,40px);font-weight:600;letter-spacing:-0.03em;line-height:1">{{ p.name }}</div>
-          <div style="font-size:15px;line-height:1.55;color:#DDE8FF">{{ p.desc }}</div>
+        <div style="flex:1 1 auto;min-height:12px"></div>
+        <div style="position:relative;display:flex;flex-direction:column;gap:10px;">
+                    <div style="font-size:clamp(30px,3vw,40px);font-weight:600;letter-spacing:-0.03em;line-height:1">{{ p.name }}</div>
+          <div style="font-size:15px;line-height:1.55;color:#DDE8FF;min-height:3.1em;text-wrap:pretty">{{ p.desc }}</div>
           <sc-if value="{{ p.hasMore }}">
             <div style="font-size:13px;line-height:1.6;color:#B9CCF0;text-wrap:pretty">{{ p.more }}</div>
           </sc-if>
@@ -346,7 +332,7 @@ input[type=range]{accent-color:#3FE0FF}
 </sc-if>
 
 <div>
-<section id="next" data-screen-label="What's next" style="position:relative;z-index:2;padding:100px 0 48px">
+<section id="next" data-screen-label="What's next" style="position:relative;z-index:2;padding:100px 0 48px;scroll-margin-top:40px">
   <div style="max-width:1360px;margin:0 auto;padding:0 max(20px,4vw);display:flex;flex-direction:column;align-items:center;text-align:center;gap:24px">
     <div style="display:flex;flex-direction:column;align-items:center;gap:18px;max-width:100%">
       <span style="font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:#8FB4FF;font-weight:500">03 · Roadmap</span>
@@ -559,41 +545,53 @@ input[type=range]{accent-color:#3FE0FF}
 </div>
 
 <sc-if value="{{ o2InfoOpen }}" hint-placeholder-val="{{ false }}">
-  <div onClick="{{ o2InfoClose }}" style="position:fixed;inset:0;z-index:120;background:rgba(1,10,28,0.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:20px">
-    <div onClick="{{ o2Stop }}" role="dialog" aria-modal="true" style="position:relative;width:min(560px,100%);border-radius:24px;border:1px solid rgba(63,224,255,0.3);background:linear-gradient(160deg, #0B2A63, #04173A);padding:clamp(24px,4vw,40px);display:flex;flex-direction:column;gap:18px;box-shadow:0 40px 100px -30px rgba(0,0,0,0.7)">
-      <button onClick="{{ o2InfoClose }}" aria-label="Close" style="position:absolute;right:16px;top:16px;width:44px;height:44px;border-radius:50%;border:1px solid rgba(150,190,255,0.3);background:rgba(255,255,255,0.04);color:#EAF2FF;font-size:18px;cursor:pointer">×</button>
-      <span style="display:flex;align-items:center;gap:10px;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8FB4FF"><span style="width:30px;height:30px;border-radius:10px;background:rgba(63,224,255,0.1);border:1px solid rgba(63,224,255,0.3);color:#7FE7FF;display:flex;align-items:center;justify-content:center;font-size:14px;letter-spacing:0">{{ o2Info.glyph }}</span>{{ o2Info.cat }}</span>
-      <h3 style="margin:0;font-size:clamp(26px,3vw,34px);letter-spacing:-0.02em;font-weight:600">{{ o2Info.name }}</h3>
-      <p style="margin:0;font-size:16px;line-height:1.65;color:#C9D8F2;text-wrap:pretty">{{ o2Info.desc }}</p>
-      <sc-if value="{{ o2Info.hasPts }}">
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <sc-for list="{{ o2Info.pts }}" as="pt" hint-placeholder-count="0">
-            <div style="display:flex;gap:12px;font-size:15px;line-height:1.5;color:#DDE8FF"><span style="flex:none;width:22px;height:22px;border-radius:50%;background:rgba(63,224,255,0.14);color:#7FE7FF;display:flex;align-items:center;justify-content:center;font-size:12px">✓</span><span>{{ pt }}</span></div>
-          </sc-for>
+  <div role="dialog" aria-modal="true" aria-label="{{ o2Info.name }}" onClick="{{ o2InfoClose }}" style="position:fixed;inset:0;z-index:120;display:flex;align-items:center;justify-content:center;padding:{{ ovPad }};background:rgba(2,6,16,0.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)">
+    <div data-noscrollbar="" onScroll="{{ pipScroll }}" onClick="{{ o2Stop }}" style="position:relative;width:min(1120px,100%);max-height:100%;scrollbar-width:none;-ms-overflow-style:none;overflow-x:hidden;overflow-y:auto;box-sizing:border-box;border-radius:{{ ovRadius }};background:linear-gradient(150deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03) 40%, rgba(63,224,255,0.06));border:1px solid rgba(255,255,255,0.16);box-shadow:inset 0 1px 0 rgba(255,255,255,0.18), 0 60px 120px -40px rgba(0,0,0,0.9), 0 0 80px -30px rgba(63,224,255,0.5);backdrop-filter:blur(30px) saturate(160%);-webkit-backdrop-filter:blur(30px) saturate(160%);color:#EAF2FF">
+      <div aria-hidden="true" style="position:absolute;right:-120px;top:-140px;width:420px;height:420px;border-radius:50%;background:#3FE0FF;opacity:0.14;filter:blur(90px);pointer-events:none"></div>
+      <div style="position:relative;display:flex;flex-direction:column;gap:28px;padding:clamp(22px,3.2vw,40px)">
+        <div style="display:flex;align-items:center;gap:16px">
+          <div style="width:64px;height:64px;flex:none;border-radius:16px;background:rgba(63,224,255,0.1);border:1px solid rgba(63,224,255,0.3);color:#7FE7FF;display:flex;align-items:center;justify-content:center;font-size:26px">{{ o2Info.glyph }}</div>
+          <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px">
+            <span style="display:inline-flex;align-items:center;gap:7px;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8FB4FF;font-weight:500"><span style="width:6px;height:6px;border-radius:50%;background:#3FE0FF"></span>{{ o2Info.cat }}</span>
+            <h2 style="margin:0;font-size:clamp(28px,3vw,40px);line-height:1.05;font-weight:600;letter-spacing:-0.025em">{{ o2Info.name }}</h2>
+          </div>
+          <button onClick="{{ o2InfoClose }}" aria-label="Close" style="flex:none;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.06);color:#EAF2FF;font-size:20px;cursor:pointer" style-hover="background:rgba(255,255,255,0.14)">×</button>
         </div>
-      </sc-if>
-      <a href="#o2-contact" onClick="{{ o2InfoClose }}" style="align-self:flex-start;height:48px;padding:0 22px;border-radius:9999px;background:linear-gradient(135deg,#4FB2FF,#3FE0FF);color:#03122B;display:flex;align-items:center;font-size:15px;font-weight:600" style-hover="color:#03122B">Let's Talk ↗</a>
+        <div data-pip="1" style="position:relative;z-index:6;transform-origin:top right;will-change:transform;transition:box-shadow .3s, border-radius .3s;width:100%;max-width:720px;max-height:40vh;aspect-ratio:16/9;margin:0 auto;border-radius:20px;overflow:hidden;background:rgba(4,10,28,0.6);border:1px solid rgba(255,255,255,0.12)">
+          <image-slot id="{{ o2Info.slot }}" shape="rounded" radius="20" fit="cover" placeholder="{{ o2Info.slotPh }}" style="position:absolute;inset:0;width:100%;height:100%"></image-slot>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:18px;max-width:760px">
+          <p style="margin:0;font-size:18px;line-height:1.6;color:#DDE8FF;text-wrap:pretty">{{ o2Info.desc }}</p>
+          <sc-if value="{{ o2Info.hasPts }}">
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <sc-for list="{{ o2Info.pts }}" as="pt" hint-placeholder-count="0">
+                <div style="display:flex;gap:12px;font-size:15px;line-height:1.5;color:#DDE8FF"><span style="flex:none;width:22px;height:22px;border-radius:50%;background:rgba(63,224,255,0.14);color:#7FE7FF;display:flex;align-items:center;justify-content:center;font-size:12px">✓</span><span>{{ pt }}</span></div>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+      </div>
     </div>
   </div>
 </sc-if>
 
 <sc-if value="{{ isV2 }}" hint-placeholder-val="{{ false }}">
-<section id="o2-contact" data-screen-label="O2 Contact" style="position:relative;z-index:2;max-width:1360px;margin:0 auto;padding:40px max(20px,4vw) 56px;scroll-margin-top:80px">
-  <div style="position:relative;border-radius:32px;overflow:hidden;border:1px solid rgba(63,224,255,0.22);background:linear-gradient(135deg, rgba(10,30,80,0.9), rgba(3,18,43,0.92));display:flex;flex-direction:column;align-items:center">
-    <div aria-hidden="true" style="position:absolute;left:-20%;top:-60%;width:80%;aspect-ratio:1/1;border-radius:50%;background:conic-gradient(from 0deg, rgba(74,59,255,0.0), rgba(74,59,255,0.35), rgba(63,224,255,0.3), rgba(74,59,255,0.0));filter:blur(60px);animation:wwSpin {{ o2fSpin1 }} linear infinite;pointer-events:none"></div>
-    <div aria-hidden="true" style="position:absolute;inset:0;background-image:linear-gradient(rgba(150,190,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(150,190,255,0.06) 1px, transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(ellipse at 20% 50%, #000, transparent 70%);mask-image:radial-gradient(ellipse at 20% 50%, #000, transparent 70%);pointer-events:none"></div>
-    <div style="position:relative;width:100%;box-sizing:border-box;padding:clamp(40px,5vw,64px) clamp(20px,4vw,48px) 0;display:flex;flex-direction:column;align-items:center;text-align:center;gap:20px">
+<section id="o2-contact" data-screen-label="O2 Contact" style="position:relative;z-index:2;max-width:960px;margin:0 auto;padding:40px max(20px,4vw) 56px;scroll-margin-top:80px">
+  <div style="position:relative;border-radius:28px;overflow:hidden;border:1px solid rgba(63,224,255,0.18);background:linear-gradient(135deg, rgba(10,30,80,0.85), rgba(3,18,43,0.92));display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));align-items:stretch">
+    <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 80% at 25% 70%, rgba(120,230,255,0.16), transparent 70%);opacity:{{ o2LampWash }};transition:opacity .8s ease"></div>
+    <canvas ref="{{ o2LampRef }}" aria-label="Table lamp. Pull the cord to turn it on." style="position:absolute;inset:0;width:100%;height:100%;display:block"></canvas>
+    <div style="position:relative;z-index:1;pointer-events:none;display:flex;flex-direction:column;gap:12px;padding:clamp(24px,3vw,36px) clamp(20px,3vw,36px) 0">
       <span style="font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:#8FB4FF;font-weight:500">05 · Get involved</span>
-      <h2 style="margin:0;font-size:clamp(24px,4.8vw,68px);line-height:1;letter-spacing:-0.035em;font-weight:700;white-space:nowrap;background:linear-gradient(100deg,#4A3BFF 0%,#5A3FE6 30%,#5E8DFF 55%,#66AEFF 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:0.06em">Let's build what comes next.</h2>
-      <p style="margin:0;max-width:460px;font-size:18px;line-height:1.6;color:#B9CCF0">Have an idea or a use case? Tell us about it.</p>
+      <h2 style="margin:0;font-size:clamp(20px,2.2vw,28px);line-height:1.1;letter-spacing:-0.03em;font-weight:700;white-space:nowrap;background:linear-gradient(100deg,#4A3BFF 0%,#5E8DFF 45%,#66AEFF 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:0.06em">Let's build what comes next.</h2>
+      <p style="margin:0;max-width:420px;font-size:16px;line-height:1.6;color:#B9CCF0">Have an idea or a use case? Tell us about it.</p>
+      <div aria-hidden="true" style="flex:1;min-height:300px"></div>
     </div>
-    <div style="position:relative;width:100%;max-width:680px;box-sizing:border-box;padding:clamp(24px,3vw,40px) clamp(16px,3vw,36px) clamp(32px,4vw,56px);display:flex">
-      <div style="position:relative;flex:1;border-radius:24px;overflow:hidden;border:1px solid rgba(63,224,255,0.3);background:linear-gradient(160deg, rgba(255,255,255,0.07), rgba(255,255,255,0.015));backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 40px 90px -50px rgba(47,107,255,0.8)">
+    <div style="position:relative;z-index:1;display:flex;flex-direction:column;justify-content:center;gap:12px;padding:clamp(24px,3vw,36px) clamp(20px,3vw,36px)">
+      <div style="position:relative;border-radius:22px;opacity:{{ o2LampFormOp }};filter:{{ o2LampFormFilter }};transform:{{ o2LampFormTf }};transition:opacity .8s ease, filter .8s ease, transform .8s cubic-bezier(.2,.7,.2,1);overflow:hidden;border:1px solid rgba(63,224,255,0.3);background:linear-gradient(160deg, rgba(255,255,255,0.07), rgba(255,255,255,0.015));backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 40px 90px -50px rgba(47,107,255,0.8)" onFocus="{{ o2LampToggle }}" onPointerDown="{{ o2LampToggle }}">
         <canvas ref="{{ o2cRef }}" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none;opacity:0.55;-webkit-mask-image:linear-gradient(200deg,#000 0%,rgba(0,0,0,0.5) 45%,transparent 75%);mask-image:linear-gradient(200deg,#000 0%,rgba(0,0,0,0.5) 45%,transparent 75%)"></canvas>
-        <form onSubmit="{{ o2cSubmit }}" style="position:relative;display:flex;flex-direction:column;gap:18px;padding:clamp(24px,3.4vw,40px)">
+        <form onSubmit="{{ o2cSubmit }}" style="position:relative;display:flex;flex-direction:column;gap:14px;padding:clamp(20px,2.6vw,30px)">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:16px">
-            <span style="font-size:clamp(26px,2.6vw,34px);font-weight:600;letter-spacing:-0.02em;line-height:1">Contact Us</span>
-            <span style="font-size:14px;color:#B9CCF0">info@fadaat.com</span>
+            <span style="font-size:20px;font-weight:600;letter-spacing:-0.01em;line-height:1.2">Contact Us</span>
           </div>
           <sc-if value="{{ o2cSent }}" hint-placeholder-val="{{ false }}">
             <div role="status" style="display:flex;flex-direction:column;gap:10px;padding:28px 0">
@@ -616,23 +614,33 @@ input[type=range]{accent-color:#3FE0FF}
     </div>
   </div>
 </section>
-<footer style="position:relative;z-index:2;max-width:1360px;margin:0 auto;padding:28px max(20px,4vw) 96px;font-size:13px;color:#8FA7CF;text-align:center;border-top:1px solid rgba(150,190,255,0.12)">© 2026 AI Studio · Concept prototype based on the provided sketch. Contact addresses are placeholders.</footer>
+<footer style="position:relative;z-index:2;max-width:1360px;margin:0 auto;padding:40px max(20px,4vw) 96px;display:flex;flex-direction:column;align-items:center;gap:22px;border-top:1px solid rgba(150,190,255,0.12);font-size:13px;color:#8FA7CF;text-align:center">
+  <img src="assets/fadaat-logo.png" alt="Fadaat" style="height:26px;width:auto;display:block;filter:brightness(0) invert(1);opacity:0.9">
+  <nav aria-label="Social media" style="display:flex;align-items:center;gap:10px">
+    <a href="#" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook" style="width:38px;height:38px;border-radius:50%;border:1px solid rgba(150,190,255,0.2);display:flex;align-items:center;justify-content:center;color:#B9CCF0;transition:color .25s, border-color .25s, background .25s, transform .25s" style-hover="color:#3FE0FF;border-color:rgba(63,224,255,0.5);background:rgba(63,224,255,0.08);transform:translateY(-2px)"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"></path></svg></a>
+    <a href="#" target="_blank" rel="noopener" aria-label="X" title="X" style="width:38px;height:38px;border-radius:50%;border:1px solid rgba(150,190,255,0.2);display:flex;align-items:center;justify-content:center;color:#B9CCF0;transition:color .25s, border-color .25s, background .25s, transform .25s" style-hover="color:#3FE0FF;border-color:rgba(63,224,255,0.5);background:rgba(63,224,255,0.08);transform:translateY(-2px)"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"></path></svg></a>
+    <a href="#" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok" style="width:38px;height:38px;border-radius:50%;border:1px solid rgba(150,190,255,0.2);display:flex;align-items:center;justify-content:center;color:#B9CCF0;transition:color .25s, border-color .25s, background .25s, transform .25s" style-hover="color:#3FE0FF;border-color:rgba(63,224,255,0.5);background:rgba(63,224,255,0.08);transform:translateY(-2px)"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07Z"></path></svg></a>
+    <a href="#" target="_blank" rel="noopener" aria-label="Spotify" title="Spotify" style="width:38px;height:38px;border-radius:50%;border:1px solid rgba(150,190,255,0.2);display:flex;align-items:center;justify-content:center;color:#B9CCF0;transition:color .25s, border-color .25s, background .25s, transform .25s" style-hover="color:#3FE0FF;border-color:rgba(63,224,255,0.5);background:rgba(63,224,255,0.08);transform:translateY(-2px)"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"></path></svg></a>
+    <a href="#" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram" style="width:38px;height:38px;border-radius:50%;border:1px solid rgba(150,190,255,0.2);display:flex;align-items:center;justify-content:center;color:#B9CCF0;transition:color .25s, border-color .25s, background .25s, transform .25s" style-hover="color:#3FE0FF;border-color:rgba(63,224,255,0.5);background:rgba(63,224,255,0.08);transform:translateY(-2px)"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"></path></svg></a>
+  </nav>
+  <span>© 2026 Fadaat. All rights reserved.</span>
+</footer>
 </sc-if>
 
 <sc-if value="{{ solOpen0 }}" hint-placeholder-val="{{ false }}">
-  <div role="dialog" aria-modal="true" aria-label="Labeeb" onClick="{{ solClose }}" style="position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:{{ ovPad }};background:rgba(2,6,16,0.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);opacity:{{ solPopIn.bgOp }};transition:opacity .35s ease">
-    <div onClick="{{ solStop }}" style="position:relative;width:min(1120px,100%);max-height:100%;overflow:auto;border-radius:{{ ovRadius }};background:linear-gradient(150deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03) 40%, rgba(63,224,255,0.06));border:1px solid rgba(255,255,255,0.16);box-shadow:inset 0 1px 0 rgba(255,255,255,0.18), 0 60px 120px -40px rgba(0,0,0,0.9), 0 0 80px -30px rgba(63,224,255,0.5);backdrop-filter:blur(30px) saturate(160%);-webkit-backdrop-filter:blur(30px) saturate(160%);transform:{{ solPopIn.boxTf }};transition:transform .55s cubic-bezier(.2,.7,.2,1)">
+  <div role="dialog" aria-modal="true" aria-label="Labeeb" onClick="{{ solClose }}" style="pointer-events:{{ solPE }};position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:{{ ovPad }};background:rgba(2,6,16,0.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);opacity:{{ solPopIn.bgOp }};transition:opacity .35s ease">
+    <div data-noscrollbar="" onScroll="{{ pipScroll }}" onClick="{{ solStop }}" style="position:relative;width:min(1120px,100%);max-height:100%;scrollbar-width:none;-ms-overflow-style:none;overflow-x:hidden;overflow-y:auto;box-sizing:border-box;border-radius:{{ ovRadius }};background:linear-gradient(150deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03) 40%, rgba(63,224,255,0.06));border:1px solid rgba(255,255,255,0.16);box-shadow:inset 0 1px 0 rgba(255,255,255,0.18), 0 60px 120px -40px rgba(0,0,0,0.9), 0 0 80px -30px rgba(63,224,255,0.5);backdrop-filter:blur(30px) saturate(160%);-webkit-backdrop-filter:blur(30px) saturate(160%);transform:{{ solPopIn.boxTf }};transition:transform .55s cubic-bezier(.2,.7,.2,1)">
       <div aria-hidden="true" style="position:absolute;right:-120px;top:-140px;width:420px;height:420px;border-radius:50%;background:#3FE0FF;opacity:0.14;filter:blur(90px);pointer-events:none"></div>
       <div style="position:relative;display:flex;flex-direction:column;gap:28px;padding:clamp(22px,3.2vw,40px)">
         <div style="display:flex;align-items:center;gap:16px">
-          <div onClick="{{ solStop }}" style="width:64px;height:64px;flex:none;border-radius:16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14)"><image-slot id="sol-logo-labeeb" shape="rounded" radius="16" fit="contain" placeholder="Logo" style="width:64px;height:64px"></image-slot></div>
+          <div style="width:64px;height:64px;flex:none;border-radius:16px;background:#FFFFFF;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px -12px rgba(63,224,255,0.6)"><img src="assets/labeeb-mark.png" alt="Labeeb" style="height:44px;width:auto;display:block"></div>
           <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px">
             <span style="display:inline-flex;align-items:center;gap:7px;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8FB4FF;font-weight:500"><span style="width:6px;height:6px;border-radius:50%;background:#3FE0FF"></span>Super CMS</span>
             <h2 style="margin:0;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;font-size:clamp(28px,3vw,40px);line-height:1.05;font-weight:600;letter-spacing:-0.025em">Labeeb <span dir="rtl" lang="ar" style="font-family:'Cairo','Readex Pro',system-ui,sans-serif;font-size:0.75em;color:#3FE0FF;letter-spacing:0">لبيب</span></h2>
           </div>
           <button onClick="{{ solClose }}" aria-label="Close" style="flex:none;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.06);color:#EAF2FF;font-size:20px;cursor:pointer" style-hover="background:rgba(255,255,255,0.14)">×</button>
         </div>
-        <div style="position:relative;aspect-ratio:16/9;border-radius:20px;overflow:hidden;background:rgba(4,10,28,0.6);border:1px solid rgba(255,255,255,0.12)">
+        <div data-pip="1" style="position:relative;z-index:6;transform-origin:top right;will-change:transform;transition:box-shadow .3s, border-radius .3s;width:100%;max-width:720px;max-height:40vh;aspect-ratio:16/9;margin:0 auto;border-radius:20px;overflow:hidden;background:rgba(4,10,28,0.6);border:1px solid rgba(255,255,255,0.12)">
           <sc-if value="{{ sol0Video.has }}" hint-placeholder-val="{{ false }}">
             <video src="{{ sol0Video.src }}" controls="" playsInline="" preload="metadata" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;background:#000"></video>
           </sc-if>
@@ -647,16 +655,25 @@ input[type=range]{accent-color:#3FE0FF}
         <div style="display:grid;grid-template-columns:{{ solPopCols }};gap:clamp(24px,3.5vw,48px)">
           <div style="display:flex;flex-direction:column;gap:22px">
             <div style="display:flex;flex-direction:column;gap:8px">
-              <span style="font-size:20px;font-weight:600;line-height:1.3;text-wrap:balance">Six stages, one shared intelligence layer</span>
-              <p style="margin:0;font-size:16px;line-height:1.65;color:#C9D8F5;text-wrap:pretty">Labeeb aggregates every brand’s CMS, so every stage reads from and writes to the same data.</p>
+              <span style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8FB4FF;font-weight:500">The backbone</span>
+              <span style="font-size:22px;font-weight:600;line-height:1.3;text-wrap:balance">Labeeb, our super CMS</span>
+              <p style="margin:0;font-size:16px;line-height:1.65;color:#C9D8F5;text-wrap:pretty">One view of every story, in every status. Labeeb aggregates every brand’s CMS, so every stage reads from and writes to the same data.</p>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+              <div style="display:flex;flex-direction:column;gap:4px;padding:14px 16px;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(150,190,255,0.16)"><span style="font-size:15px;font-weight:600;color:#FFFFFF">Unified 360° view</span><span style="font-size:13px;line-height:1.45;color:#B9CCF0">Every input from every brand</span></div>
+              <div style="display:flex;flex-direction:column;gap:4px;padding:14px 16px;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(150,190,255,0.16)"><span style="font-size:15px;font-weight:600;color:#FFFFFF">Workflow intelligence</span><span style="font-size:13px;line-height:1.45;color:#B9CCF0">Status, bottlenecks, productivity</span></div>
+              <div style="display:flex;flex-direction:column;gap:4px;padding:14px 16px;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(150,190,255,0.16)"><span style="font-size:15px;font-weight:600;color:#FFFFFF">Coverage gap analysis</span><span style="font-size:13px;line-height:1.45;color:#B9CCF0">Vs. trends and competitors</span></div>
+              <div style="display:flex;flex-direction:column;gap:4px;padding:14px 16px;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(150,190,255,0.16)"><span style="font-size:15px;font-weight:600;color:#FFFFFF">AI drafting</span><span style="font-size:13px;line-height:1.45;color:#B9CCF0">Suggested drafts for each gap</span></div>
+              <div style="display:flex;flex-direction:column;gap:4px;padding:14px 16px;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(150,190,255,0.16)"><span style="font-size:15px;font-weight:600;color:#FFFFFF">Performance analytics</span><span style="font-size:13px;line-height:1.45;color:#B9CCF0">Top articles, authors and topics</span></div>
+              <div style="display:flex;flex-direction:column;gap:4px;padding:14px 16px;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(150,190,255,0.16)"><span style="font-size:15px;font-weight:600;color:#FFFFFF">Content enrichment</span><span style="font-size:13px;line-height:1.45;color:#B9CCF0">Audio, summaries, podcast, translation</span></div>
             </div>
             <div style="display:flex;flex-direction:column;gap:12px">
-              <span style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8FB4FF;font-weight:500">Capabilities it combines</span>
-              <div style="display:flex;flex-wrap:wrap;gap:8px"><span style="height:32px;display:inline-flex;align-items:center;padding:0 13px;border-radius:9999px;font-size:13px;color:#EAFBFF;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);backdrop-filter:blur(10px)">Text-to-Speech</span><span style="height:32px;display:inline-flex;align-items:center;padding:0 13px;border-radius:9999px;font-size:13px;color:#EAFBFF;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);backdrop-filter:blur(10px)">AI Summarization</span><span style="height:32px;display:inline-flex;align-items:center;padding:0 13px;border-radius:9999px;font-size:13px;color:#EAFBFF;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);backdrop-filter:blur(10px)">AI-Generated Podcast</span><span style="height:32px;display:inline-flex;align-items:center;padding:0 13px;border-radius:9999px;font-size:13px;color:#EAFBFF;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);backdrop-filter:blur(10px)">AI Transcription &amp; Translation</span><span style="height:32px;display:inline-flex;align-items:center;padding:0 13px;border-radius:9999px;font-size:13px;color:#EAFBFF;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);backdrop-filter:blur(10px)">AI Live Captions</span><span style="height:32px;display:inline-flex;align-items:center;padding:0 13px;border-radius:9999px;font-size:13px;color:#EAFBFF;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);backdrop-filter:blur(10px)">AI Chatbot</span><span style="height:32px;display:inline-flex;align-items:center;padding:0 13px;border-radius:9999px;font-size:13px;color:#EAFBFF;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);backdrop-filter:blur(10px)">Editorial Assistant</span></div>
+              <span style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8FB4FF;font-weight:500">Brand CMSs</span>
+              <div style="display:flex;flex-wrap:wrap;gap:8px"><span style="height:30px;display:inline-flex;align-items:center;padding:0 12px;border-radius:9999px;font-size:13px;color:#EAFBFF;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14)">Alaraby Aljadeed</span><span style="height:30px;display:inline-flex;align-items:center;padding:0 12px;border-radius:9999px;font-size:13px;color:#EAFBFF;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14)">The New Arab</span><span style="height:30px;display:inline-flex;align-items:center;padding:0 12px;border-radius:9999px;font-size:13px;color:#EAFBFF;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14)">Alaraby TV</span><span style="height:30px;display:inline-flex;align-items:center;padding:0 12px;border-radius:9999px;font-size:13px;color:#EAFBFF;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14)">Alaraby TV 2</span><span style="height:30px;display:inline-flex;align-items:center;padding:0 12px;border-radius:9999px;font-size:13px;color:#EAFBFF;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14)">Alaraby Plus</span><span style="height:30px;display:inline-flex;align-items:center;padding:0 12px;border-radius:9999px;font-size:13px;color:#EAFBFF;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14)">Althania TV</span><span style="height:30px;display:inline-flex;align-items:center;padding:0 12px;border-radius:9999px;font-size:13px;color:#EAFBFF;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14)">Syria TV</span><span style="height:30px;display:inline-flex;align-items:center;padding:0 12px;border-radius:9999px;font-size:13px;color:#EAFBFF;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14)">Almodon</span><span style="height:30px;display:inline-flex;align-items:center;padding:0 12px;border-radius:9999px;font-size:13px;color:#EAFBFF;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14)">WinWin</span><span style="height:30px;display:inline-flex;align-items:center;padding:0 12px;border-radius:9999px;font-size:13px;color:#EAFBFF;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14)">Misbar</span><span style="height:30px;display:inline-flex;align-items:center;padding:0 12px;border-radius:9999px;font-size:13px;color:#EAFBFF;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14)">Ultra Sawt</span><span style="height:30px;display:inline-flex;align-items:center;padding:0 12px;border-radius:9999px;font-size:13px;color:#EAFBFF;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14)">Sehatok</span><span style="height:30px;display:inline-flex;align-items:center;padding:0 12px;border-radius:9999px;font-size:13px;color:#EAFBFF;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14)">+ Others</span></div>
             </div>
           </div>
           <div style="display:flex;flex-direction:column;gap:14px;padding:22px;border-radius:20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1)">
-            <span style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8FB4FF;font-weight:500">Workflow</span>
+            <span style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8FB4FF;font-weight:500">Six stages, one shared intelligence layer</span>
             <ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column">
               <li style="position:relative;display:grid;grid-template-columns:36px minmax(0,1fr);gap:14px;padding-bottom:16px;opacity:{{ solPopIn.op }};transform:{{ solPopIn.tf }};transition:opacity .5s ease 0.25s, transform .6s cubic-bezier(.2,.7,.2,1) 0.25s">
                 <span aria-hidden="true" style="position:absolute;left:17px;top:38px;bottom:2px;width:2px;border-radius:2px;background:linear-gradient(180deg, rgba(63,224,255,0.6), rgba(63,224,255,0.12))"></span>
@@ -697,13 +714,74 @@ input[type=range]{accent-color:#3FE0FF}
   </div>
 </sc-if>
 
+<sc-if value="{{ ppOpen }}" hint-placeholder-val="{{ false }}">
+  <div role="dialog" aria-modal="true" aria-label="{{ pp.name }}" onClick="{{ ppClose }}" style="pointer-events:{{ ppPE }};position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:{{ ovPad }};background:rgba(2,6,16,0.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);opacity:{{ ppBgOp }};transition:opacity .35s ease">
+    <div data-noscrollbar="" ref="{{ ppBoxRef }}" onScroll="{{ pipScroll }}" onClick="{{ solStop }}" style="position:relative;width:min(1120px,100%);max-height:100%;scrollbar-width:none;-ms-overflow-style:none;overflow-x:hidden;overflow-y:auto;box-sizing:border-box;border-radius:{{ ovRadius }};background:linear-gradient(150deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03) 40%, rgba(63,224,255,0.06));border:1px solid rgba(255,255,255,0.16);box-shadow:inset 0 1px 0 rgba(255,255,255,0.18), 0 60px 120px -40px rgba(0,0,0,0.9), 0 0 80px -30px rgba(63,224,255,0.5);backdrop-filter:blur(30px) saturate(160%);-webkit-backdrop-filter:blur(30px) saturate(160%);color:#EAF2FF;transform:{{ ppBoxTf }};transition:transform .55s cubic-bezier(.2,.7,.2,1)">
+      <div aria-hidden="true" style="position:absolute;right:-120px;top:-140px;width:420px;height:420px;border-radius:50%;background:#3FE0FF;opacity:0.14;filter:blur(90px);pointer-events:none"></div>
+      <div style="position:relative;display:flex;flex-direction:column;gap:28px;padding:clamp(22px,3.2vw,40px)">
+        <div style="display:flex;align-items:center;gap:16px">
+          <sc-if value="{{ pp.hasLogo }}" hint-placeholder-val="{{ false }}"><div role="img" aria-label="{{ pp.name }} logo" style="width:150px;height:56px;flex:none;background-image:{{ pp.logoBg }};background-size:contain;background-repeat:no-repeat;background-position:left center"></div></sc-if>
+          <sc-if value="{{ pp.noLogo }}" hint-placeholder-val="{{ true }}"><div style="width:150px;height:56px;flex:none;border-radius:14px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14)"><image-slot id="{{ pp.logoId }}" shape="rounded" radius="14" fit="contain" placeholder="Logo" style="width:150px;height:56px;white-space:nowrap"></image-slot></div></sc-if>
+          <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px">
+            <span style="display:inline-flex;align-items:center;gap:7px;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8FB4FF;font-weight:500"><span style="width:6px;height:6px;border-radius:50%;background:#3FE0FF"></span>{{ pp.cat }}</span>
+            <sc-if value="{{ pp.noLogo }}" hint-placeholder-val="{{ true }}"><h2 style="margin:0;font-size:clamp(28px,3vw,40px);line-height:1.05;font-weight:600;letter-spacing:-0.025em">{{ pp.name }}</h2></sc-if>
+          </div>
+          <button onClick="{{ ppClose }}" aria-label="Close" style="flex:none;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.06);color:#EAF2FF;font-size:20px;cursor:pointer" style-hover="background:rgba(255,255,255,0.14)">×</button>
+        </div>
+        <div data-pip="1" style="position:relative;z-index:6;transform-origin:top right;will-change:transform;transition:box-shadow .3s, border-radius .3s;width:100%;max-width:720px;max-height:40vh;aspect-ratio:16/9;margin:0 auto;border-radius:20px;overflow:hidden;background:rgba(4,10,28,0.6);border:1px solid rgba(255,255,255,0.12)">
+          <sc-if value="{{ pp.isImage }}" hint-placeholder-val="{{ true }}"><image-slot id="{{ pp.heroId }}" shape="rounded" radius="20" fit="cover" placeholder="{{ pp.heroPh }}" style="position:absolute;inset:0;width:100%;height:100%"></image-slot></sc-if>
+          <sc-if value="{{ pp.isTw }}" hint-placeholder-val="{{ false }}"><video src="assets/tawazi-video.mp4" controls="" playsInline="" preload="metadata" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;background:#000"></video></sc-if>
+          <sc-if value="{{ pp.hasVideo }}" hint-placeholder-val="{{ false }}"><video src="{{ pp.video }}" controls="" playsInline="" preload="metadata" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;background:#000"></video></sc-if>
+          <sc-if value="{{ pp.videoPh }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:radial-gradient(ellipse at 50% 40%, rgba(63,224,255,0.18), transparent 70%)">
+              <span style="position:relative;width:72px;height:72px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);backdrop-filter:blur(10px)"><span aria-hidden="true" style="position:absolute;inset:-1px;border-radius:50%;border:1px solid rgba(63,224,255,0.6);animation:wwPing 2.4s ease-out infinite"></span><span aria-hidden="true" style="width:0;height:0;margin-left:5px;border-left:18px solid #FFFFFF;border-top:11px solid transparent;border-bottom:11px solid transparent"></span></span>
+              <span style="font-size:15px;color:#DDE8FF">{{ pp.name }} walkthrough video</span>
+              <span style="font-size:13px;color:#8EA6CF">Add the video link in Tweaks</span>
+            </div>
+          </sc-if>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;max-width:760px">
+          <span style="font-size:22px;font-weight:600;line-height:1.3;text-wrap:balance">{{ pp.desc }}</span>
+          <sc-if value="{{ pp.hasMore }}"><p style="margin:0;font-size:16px;line-height:1.65;color:#C9D8F5;text-wrap:pretty">{{ pp.more }}</p></sc-if>
+        </div>
+        <sc-if value="{{ pp.hasDoc }}" hint-placeholder-val="{{ false }}">
+          <div ref="{{ ppDocRef }}" style="display:flex;flex-direction:column;gap:14px;padding:22px;border-radius:20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1)">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+              <div style="display:flex;flex-direction:column;gap:4px;min-width:0">
+                <span style="font-size:18px;font-weight:600;color:#FFFFFF">{{ docTitle }}</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px">
+                <sc-if value="{{ docMulti }}" hint-placeholder-val="{{ true }}"><span style="font-size:14px;color:#9CB3DD;font-variant-numeric:tabular-nums"><span style="color:#FFFFFF;font-weight:600">{{ docPage }}</span> / {{ docTotal }}</span></sc-if>
+                <button onClick="{{ docFull }}" style="height:36px;padding:0 14px;border-radius:9999px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.06);color:#EAF2FF;font-size:13px;cursor:pointer" style-hover="background:rgba(63,224,255,0.14)">Full screen</button>
+              </div>
+            </div>
+            <div style="position:relative;width:100%;max-width:{{ docMaxW }};margin:0 auto;aspect-ratio:{{ docRatio }};border-radius:14px;overflow:hidden;background:#F4F7FC;box-shadow:0 30px 70px -30px rgba(0,0,0,0.8)">
+              <sc-for list="{{ docSlides }}" as="d" hint-placeholder-count="0">
+                <div role="img" aria-label="{{ d.label }}" aria-hidden="{{ d.hidden }}" style="position:absolute;inset:0;background-image:{{ d.bg }};background-size:contain;background-position:center;background-repeat:no-repeat;opacity:{{ d.op }};transform:{{ d.tf }};transition:opacity .45s ease, transform .55s cubic-bezier(.2,.7,.2,1)"></div>
+              </sc-for>
+              <sc-if value="{{ docMulti }}" hint-placeholder-val="{{ true }}"><button onClick="{{ docPrev }}" aria-label="Previous slide" style="position:absolute;left:12px;top:50%;margin-top:-24px;width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,0.3);background:rgba(3,18,43,0.65);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:{{ docPrevOp }};transition:background .3s, border-color .3s" style-hover="background:rgba(63,224,255,0.25);border-color:#3FE0FF"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
+              <button onClick="{{ docNext }}" aria-label="Next slide" style="position:absolute;right:12px;top:50%;margin-top:-24px;width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,0.3);background:rgba(3,18,43,0.65);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:{{ docNextOp }};transition:background .3s, border-color .3s" style-hover="background:rgba(63,224,255,0.25);border-color:#3FE0FF"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"></path></svg></button></sc-if>
+            </div>
+            <sc-if value="{{ docMulti }}" hint-placeholder-val="{{ true }}"><div style="height:3px;border-radius:3px;background:rgba(150,190,255,0.16);overflow:hidden"><span style="display:block;height:100%;width:{{ docProg }};background:linear-gradient(90deg,#2F6BFF,#3FE0FF);transition:width .4s ease"></span></div>
+            <div ref="{{ docThumbsRef }}" style="min-width:0;display:flex;gap:10px;overflow-x:auto;padding:4px 2px 6px;scrollbar-width:thin;scrollbar-color:rgba(150,190,255,0.3) transparent">
+              <sc-for list="{{ docThumbs }}" as="t" hint-placeholder-count="0">
+                <button onClick="{{ t.onClick }}" aria-label="{{ t.label }}" style="flex:none;position:relative;width:112px;height:63px;padding:0;border-radius:8px;border:2px solid {{ t.border }};background-color:#F4F7FC;background-image:{{ t.bg }};background-size:cover;background-position:center;cursor:pointer;box-shadow:{{ t.shadow }};opacity:{{ t.op }};transition:border-color .3s, box-shadow .3s, opacity .3s" style-hover="opacity:1"><span style="position:absolute;right:4px;bottom:4px;padding:1px 6px;border-radius:6px;background:rgba(3,18,43,0.8);font-size:11px;color:#FFFFFF;font-variant-numeric:tabular-nums">{{ t.n }}</span></button>
+              </sc-for>
+            </div></sc-if>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
 <sc-if value="{{ solOpen1 }}" hint-placeholder-val="{{ false }}">
-  <div role="dialog" aria-modal="true" aria-label="Muraqib" onClick="{{ solClose }}" style="position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:{{ ovPad }};background:rgba(2,6,16,0.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);opacity:{{ solPopIn.bgOp }};transition:opacity .35s ease">
-    <div onClick="{{ solStop }}" style="position:relative;width:min(1120px,100%);max-height:100%;overflow:auto;border-radius:{{ ovRadius }};background:linear-gradient(150deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03) 40%, rgba(127,166,255,0.06));border:1px solid rgba(255,255,255,0.16);box-shadow:inset 0 1px 0 rgba(255,255,255,0.18), 0 60px 120px -40px rgba(0,0,0,0.9), 0 0 80px -30px rgba(127,166,255,0.5);backdrop-filter:blur(30px) saturate(160%);-webkit-backdrop-filter:blur(30px) saturate(160%);transform:{{ solPopIn.boxTf }};transition:transform .55s cubic-bezier(.2,.7,.2,1)">
+  <div role="dialog" aria-modal="true" aria-label="Muraqib" onClick="{{ solClose }}" style="pointer-events:{{ solPE }};position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:{{ ovPad }};background:rgba(2,6,16,0.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);opacity:{{ solPopIn.bgOp }};transition:opacity .35s ease">
+    <div data-noscrollbar="" onClick="{{ solStop }}" style="position:relative;width:min(1120px,100%);max-height:100%;scrollbar-width:none;-ms-overflow-style:none;overflow:auto;border-radius:{{ ovRadius }};background:linear-gradient(150deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03) 40%, rgba(127,166,255,0.06));border:1px solid rgba(255,255,255,0.16);box-shadow:inset 0 1px 0 rgba(255,255,255,0.18), 0 60px 120px -40px rgba(0,0,0,0.9), 0 0 80px -30px rgba(127,166,255,0.5);backdrop-filter:blur(30px) saturate(160%);-webkit-backdrop-filter:blur(30px) saturate(160%);transform:{{ solPopIn.boxTf }};transition:transform .55s cubic-bezier(.2,.7,.2,1)">
       <div aria-hidden="true" style="position:absolute;right:-120px;top:-140px;width:420px;height:420px;border-radius:50%;background:#7FA6FF;opacity:0.14;filter:blur(90px);pointer-events:none"></div>
       <div style="position:relative;display:flex;flex-direction:column;gap:28px;padding:clamp(22px,3.2vw,40px)">
         <div style="display:flex;align-items:center;gap:16px">
-          <div onClick="{{ solStop }}" style="width:64px;height:64px;flex:none;border-radius:16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14)"><image-slot id="sol-logo-muraqib" shape="rounded" radius="16" fit="contain" placeholder="Logo" style="width:64px;height:64px"></image-slot></div>
+          <div onClick="{{ solStop }}" style="width:150px;height:56px;flex:none;border-radius:14px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14)"><image-slot id="sol-logo-muraqib" shape="rounded" radius="14" fit="contain" placeholder="Logo" style="width:150px;height:56px;white-space:nowrap"></image-slot></div>
           <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px">
             <span style="display:inline-flex;align-items:center;gap:7px;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8FB4FF;font-weight:500"><span style="width:6px;height:6px;border-radius:50%;background:#7FA6FF"></span>Add a short label</span>
             <h2 style="margin:0;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;font-size:clamp(28px,3vw,40px);line-height:1.05;font-weight:600;letter-spacing:-0.025em">Muraqib <span dir="rtl" lang="ar" style="font-family:'Cairo','Readex Pro',system-ui,sans-serif;font-size:0.75em;color:#7FA6FF;letter-spacing:0">مراقب</span></h2>
@@ -761,18 +839,18 @@ input[type=range]{accent-color:#3FE0FF}
 </sc-if>
 
 <sc-if value="{{ isOpen }}" hint-placeholder-val="{{ false }}">
-  <div role="dialog" aria-modal="true" aria-label="{{ o.title }} demo" onClick="{{ closeDemo }}" style="position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:{{ ovPad }};background:{{ ovScrim }};backdrop-filter:{{ ovScrimBlur }};-webkit-backdrop-filter:{{ ovScrimBlur }};opacity:{{ ovOp }};transition:opacity .35s ease">
+  <div role="dialog" aria-modal="true" aria-label="{{ o.title }} demo" onClick="{{ closeDemo }}" style="pointer-events:{{ ovPE }};position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:{{ ovPad }};background:{{ ovScrim }};backdrop-filter:{{ ovScrimBlur }};-webkit-backdrop-filter:{{ ovScrimBlur }};opacity:{{ ovOp }};transition:opacity .35s ease">
     <div onClick="{{ stop }}" style="position:relative;width:{{ ovW }};height:{{ ovH }};display:grid;grid-template-columns:{{ ovCols }};grid-template-rows:{{ ovRows }};border-radius:{{ ovRadius }};overflow:hidden;background:{{ ovBg }};border:1px solid {{ ovBorder }};backdrop-filter:{{ ovGlass }};-webkit-backdrop-filter:{{ ovGlass }};box-shadow:{{ ovShadow }};transform:{{ ovTf }};transition:transform .55s cubic-bezier(.2,.7,.2,1)">
-      <sc-if value="{{ isV2 }}"><span aria-hidden="true" style="position:absolute;left:8%;right:8%;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(127,231,255,0.9),transparent);pointer-events:none;z-index:3"></span></sc-if>
+      <sc-if value="{{ isV2 }}"><div aria-hidden="true" style="position:absolute;right:-120px;top:-140px;width:420px;height:420px;border-radius:50%;background:#3FE0FF;opacity:0.14;filter:blur(90px);pointer-events:none"></div></sc-if>
       <div style="position:relative;min-height:0;overflow:hidden;border-right:1px solid rgba(150,190,255,0.12);background:{{ ovLeftBg }}">
         <canvas ref="{{ demoRef }}" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;display:block"></canvas>
         <div style="position:absolute;top:22px;left:24px;right:24px;display:flex;flex-direction:column;gap:8px">
-          <h2 style="margin:0;font-size:{{ o.titleSize }};line-height:1.1;font-weight:600;letter-spacing:-0.02em">{{ o.title }}</h2>
+          <sc-if value="{{ o.showTitle }}" hint-placeholder-val="{{ true }}"><h2 style="margin:0;font-size:{{ o.titleSize }};line-height:1.1;font-weight:600;letter-spacing:-0.02em">{{ o.title }}</h2></sc-if>
           <sc-if value="{{ o.hasUsed }}">
             <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:6px">
               <span style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#8FB4FF">Used by</span>
               <sc-for list="{{ o.logos }}" as="lg" hint-placeholder-count="0">
-                <a href="{{ lg.href }}" target="_blank" rel="noopener" onClick="{{ lg.stop }}" aria-label="{{ lg.name }}" title="{{ lg.name }}" style="display:flex;align-items:center;opacity:0.85;cursor:{{ lg.cursor }};transition:opacity .3s, transform .3s" style-hover="opacity:1;transform:translateY(-1px)"><sc-if value="{{ lg.src }}" hint-placeholder-val="{{ false }}"><img src="{{ lg.src }}" alt="{{ lg.name }}" style="display:block;height:24px;width:auto;max-width:110px;object-fit:contain;filter:brightness(0) invert(1)"></sc-if></a>
+                <a href="{{ lg.href }}" target="_blank" rel="noopener" onClick="{{ lg.stop }}" aria-label="{{ lg.name }}" title="{{ lg.name }}" style="display:flex;align-items:center;opacity:0.85;cursor:{{ lg.cursor }};transition:opacity .3s, transform .3s" style-hover="opacity:1;transform:translateY(-1px)"><span role="img" aria-label="{{ lg.name }}" style="display:block;height:24px;width:{{ lg.w }};background-image:{{ lg.bg }};background-size:contain;background-repeat:no-repeat;background-position:left center;filter:brightness(0) invert(1)"></span></a>
               </sc-for>
             </div>
           </sc-if>
@@ -878,9 +956,6 @@ input[type=range]{accent-color:#3FE0FF}
                     <div style="height:4px;border-radius:2px;background:rgba(255,255,255,0.1);overflow:hidden"><div style="height:100%;width:{{ ttsProg }};background:linear-gradient(90deg,#2F6BFF,#3FE0FF);transition:width .25s"></div></div>
                   </div>
                 </div>
-                <div style="display:flex;flex-wrap:wrap;gap:4px 6px;font-size:17px;line-height:1.6">
-                  <sc-for list="{{ ttsWords }}" as="w"><span style="padding:0 3px;border-radius:5px;color:{{ w.color }};background:{{ w.bg }};transition:background .15s, color .2s">{{ w.w }}</span></sc-for>
-                </div>
               </div>
             </div>
           </sc-if>
@@ -934,24 +1009,6 @@ input[type=range]{accent-color:#3FE0FF}
                 <span style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#8FB4FF;font-weight:500;margin-right:4px">Sample episodes</span>
                 <sc-for list="{{ podTopics }}" as="c"><button onClick="{{ c.onClick }}" style="height:36px;padding:0 14px;border-radius:9999px;border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.color }};font-size:13px;cursor:pointer">{{ c.label }}</button></sc-for>
               </div>
-              <div style="display:flex;flex-direction:column;gap:10px">
-                <span style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#8FB4FF;font-weight:500">Your hosts</span>
-                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">
-                  <sc-for list="{{ podSetup }}" as="hs" hint-placeholder-count="2">
-                    <div style="display:flex;flex-direction:column;gap:10px;padding:14px;border-radius:16px;background:rgba(255,255,255,0.03);border:1px solid rgba(150,190,255,0.16)">
-                      <div style="display:flex;align-items:center;gap:10px">
-                        <span aria-hidden="true" style="flex:none;width:28px;height:28px;border-radius:50%;background:{{ hs.grad }};box-shadow:0 0 14px rgba(63,224,255,0.35)"></span>
-                        <div style="display:flex;flex-direction:column"><span style="font-size:13px;font-weight:600;color:#EAF2FF">{{ hs.label }}</span><span style="font-size:12px;color:#8FA6CF">{{ hs.role }}</span></div>
-                      </div>
-                      <input value="{{ hs.name }}" onChange="{{ hs.onName }}" aria-label="{{ hs.label }} name" placeholder="Host name" maxLength="24" style="height:42px;background:#FFFFFF;border:1px solid rgba(255,255,255,0.9);border-radius:10px;color:#0A1F44;padding:0 12px;font-size:14px;outline:none" style-focus="border-color:#3FE0FF;box-shadow:0 0 0 3px rgba(63,224,255,0.3)">
-                      <div role="radiogroup" aria-label="{{ hs.label }} voice" style="display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:9999px;background:rgba(4,10,28,0.55);border:1px solid rgba(150,190,255,0.16)">
-                        <sc-for list="{{ hs.genders }}" as="g"><button role="radio" aria-checked="{{ g.sel }}" onClick="{{ g.onClick }}" style="height:34px;border-radius:9999px;border:none;background:{{ g.bg }};color:{{ g.color }};font-size:13px;font-weight:{{ g.weight }};cursor:pointer;transition:background .3s, color .3s">{{ g.label }}</button></sc-for>
-                      </div>
-                    </div>
-                  </sc-for>
-                </div>
-                <span style="font-size:12px;color:#7F9BCB">Voices come from your browser; available voices vary by device.</span>
-              </div>
               <sc-if value="{{ canLive }}">
                 <div style="display:flex;gap:8px;flex-wrap:wrap">
                   <input value="{{ podCustom }}" onChange="{{ onPodCustom }}" placeholder="Or enter your own topic" style="flex:1 1 220px;height:46px;background:#FFFFFF;border:1px solid rgba(255,255,255,0.9);border-radius:12px;color:#0A1F44;padding:0 14px;font-size:14px;outline:none" style-focus="border-color:#3FE0FF;box-shadow:0 0 0 3px rgba(63,224,255,0.3)">
@@ -992,24 +1049,40 @@ input[type=range]{accent-color:#3FE0FF}
 
           <sc-if value="{{ isTr }}">
             <div style="display:flex;flex-direction:column;gap:16px">
-              <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
-                <span style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#8FB4FF;font-weight:500;margin-right:4px">Audio</span>
-                <sc-for list="{{ trSources }}" as="c"><button onClick="{{ c.onClick }}" style="height:36px;padding:0 14px;border-radius:9999px;border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.color }};font-size:13px;cursor:pointer">{{ c.label }}</button></sc-for>
-                <label style="position:relative;display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px;border-radius:9999px;border:1px dashed rgba(63,224,255,0.6);background:rgba(63,224,255,0.08);color:#7FE7FF;font-size:13px;font-weight:500;cursor:pointer" style-hover="background:rgba(63,224,255,0.16)"><span aria-hidden="true">↑</span>Upload video<input type="file" accept="video/*" onChange="{{ trOnUpload }}" style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%"></label>
-              </div>
+              <sc-if value="{{ trNoVideo }}" hint-placeholder-val="{{ true }}">
+                <label onDragOver="{{ trDragOver }}" onDragLeave="{{ trDragLeave }}" onDrop="{{ trDrop }}" style="position:relative;display:flex;align-items:center;gap:16px;padding:18px 20px;border-radius:18px;border:1.5px dashed {{ trDropBorder }};background:{{ trDropBg }};cursor:pointer;transition:background .25s, border-color .25s" style-hover="background:rgba(63,224,255,0.1);border-color:rgba(63,224,255,0.75)">
+                  <span aria-hidden="true" style="position:relative;flex:none;width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,rgba(79,178,255,0.25),rgba(63,224,255,0.12));border:1px solid rgba(63,224,255,0.4);display:flex;align-items:center;justify-content:center;color:#7FE7FF">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"></path><path d="M7 9l5-5 5 5"></path><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"></path></svg>
+                  </span>
+                  <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
+                    <span style="font-size:15px;font-weight:600;color:#FFFFFF">{{ trDropTitle }}</span>
+                    <span style="font-size:13px;color:#9CB3DD">MP4, MOV or WebM · previewed in your browser</span>
+                  </span>
+                  <span style="flex:none;height:38px;padding:0 16px;border-radius:9999px;background:linear-gradient(135deg,#4FB2FF,#3FE0FF);color:#03122B;font-size:13px;font-weight:600;display:flex;align-items:center">Browse</span>
+                  <input type="file" accept="video/*" onChange="{{ trOnUpload }}" style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%">
+                </label>
+              </sc-if>
               <sc-if value="{{ trHasVideo }}">
-                <div style="display:flex;flex-direction:column;gap:10px;padding:12px;border-radius:18px;background:rgba(4,10,28,0.45);border:1px solid rgba(150,190,255,0.14)">
-                  <video src="{{ trVideo }}" controls="" playsinline="" style="width:100%;max-height:260px;border-radius:12px;background:#000;display:block"></video>
-                  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
-                    <span style="font-size:13px;color:#C9D8F5;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1">{{ trVideoName }}</span>
-                    <button onClick="{{ trClearVideo }}" style="height:32px;padding:0 12px;border-radius:9999px;border:1px solid rgba(150,190,255,0.3);background:transparent;color:#EAF2FF;font-size:12px;cursor:pointer" style-hover="background:rgba(63,224,255,0.1)">Remove</button>
+                <div style="display:flex;flex-direction:column;gap:12px">
+                  <div style="position:relative;width:100%;aspect-ratio:16/9;border-radius:20px;overflow:hidden;background:rgba(4,10,28,0.6);border:1px solid rgba(255,255,255,0.12);box-shadow:0 30px 70px -30px rgba(0,0,0,0.8)">
+                    <video src="{{ trVideo }}" controls="" playsinline="" onLoadedMetadata="{{ trMeta }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;background:#000"></video>
+                    <span style="position:absolute;left:10px;top:10px;display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:9999px;background:rgba(3,18,43,0.75);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#7FE7FF;pointer-events:none"><span style="width:6px;height:6px;border-radius:50%;background:#3FE0FF"></span>Uploaded</span>
                   </div>
-                  <span style="font-size:12px;line-height:1.5;color:#8FB4FF">Uploaded video is previewed in your browser. Transcribing it requires the connected transcription service.</span>
+                  <div style="display:flex;align-items:center;gap:12px;padding:0 4px">
+                    <span aria-hidden="true" style="flex:none;width:36px;height:36px;border-radius:10px;background:rgba(63,224,255,0.12);border:1px solid rgba(63,224,255,0.3);display:flex;align-items:center;justify-content:center;color:#7FE7FF"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="13" height="14" rx="2"></rect><path d="M16 10l5-3v10l-5-3"></path></svg></span>
+                    <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px">
+                      <span style="font-size:14px;font-weight:500;color:#FFFFFF;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ trVideoName }}</span>
+                      <span style="font-size:12px;color:#9CB3DD;font-variant-numeric:tabular-nums">{{ trVideoInfo }}</span>
+                    </span>
+                    <label style="position:relative;flex:none;height:32px;padding:0 12px;border-radius:9999px;border:1px solid rgba(150,190,255,0.3);color:#EAF2FF;font-size:12px;display:flex;align-items:center;cursor:pointer" style-hover="background:rgba(63,224,255,0.1)">Replace<input type="file" accept="video/*" onChange="{{ trOnUpload }}" style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%"></label>
+                    <button onClick="{{ trClearVideo }}" style="flex:none;height:32px;padding:0 12px;border-radius:9999px;border:1px solid rgba(150,190,255,0.3);background:transparent;color:#EAF2FF;font-size:12px;cursor:pointer" style-hover="background:rgba(63,224,255,0.1)">Remove</button>
+                  </div>
+                  <span style="font-size:12px;line-height:1.5;color:#8FB4FF;padding:0 4px">Uploaded video is previewed in your browser. Transcribing it requires the connected transcription service.</span>
                 </div>
               </sc-if>
               <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-                <button onClick="{{ trAction }}" style="height:46px;padding:0 22px;border:none;border-radius:9999px;background:linear-gradient(135deg,#4FB2FF,#3FE0FF);color:#03122B;font-size:15px;font-weight:600;cursor:pointer">{{ trBtn }}</button>
-                <span style="font-size:13px;color:#9CB3DD">{{ trStatus }}</span>
+                <button onClick="{{ trAction }}" disabled="{{ trLocked }}" aria-disabled="{{ trLocked }}" style="height:46px;padding:0 22px;border:none;border-radius:9999px;background:{{ trBtnBg }};color:{{ trBtnFg }};font-size:15px;font-weight:600;cursor:{{ trBtnCursor }};transition:background .3s, color .3s">{{ trBtn }}</button>
+                <span style="font-size:13px;color:#9CB3DD">{{ trStatusShown }}</span>
               </div>
               <sc-if value="{{ hasMicError }}"><p style="margin:0;font-size:14px;color:#FFD08A">{{ micError }}</p></sc-if>
               <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px">
@@ -1027,9 +1100,16 @@ input[type=range]{accent-color:#3FE0FF}
                 <div style="display:flex;flex-direction:column;gap:12px;padding:18px;border-radius:18px;background:linear-gradient(160deg, rgba(63,140,255,0.14), rgba(63,224,255,0.04));border:1px solid rgba(63,224,255,0.28);min-height:240px">
                   <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
                     <span style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#7FE7FF;font-weight:500">Translation</span>
-                    <select value="{{ trLang }}" onChange="{{ onTrLang }}" aria-label="Translation language" style="height:34px;background:#FFFFFF;border:1px solid rgba(255,255,255,0.9);border-radius:9999px;color:#0A1F44;padding:0 10px;font-size:13px;outline:none">
-                      <sc-for list="{{ langOpts }}" as="lo" hint-placeholder-count="4"><option value="{{ lo.value }}">{{ lo.label }}</option></sc-for>
-                    </select>
+                    <div style="position:relative">
+                      <button onClick="{{ trLangToggle }}" aria-haspopup="listbox" aria-expanded="{{ trLangOpen }}" aria-label="Translation language" style="height:36px;display:flex;align-items:center;gap:10px;padding:0 12px 0 14px;border-radius:9999px;border:1px solid {{ trLangBorder }};background:rgba(255,255,255,0.06);color:#FFFFFF;font-size:13px;font-weight:500;cursor:pointer;transition:border-color .2s, background .2s" style-hover="background:rgba(63,224,255,0.12)"><span>{{ trLangLabel }}</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7FE7FF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:{{ trLangChev }};transition:transform .25s"><path d="M6 9l6 6 6-6"></path></svg></button>
+                      <sc-if value="{{ trLangOpen }}" hint-placeholder-val="{{ false }}">
+                        <div role="listbox" style="position:absolute;right:0;top:calc(100% + 8px);z-index:20;min-width:180px;padding:6px;border-radius:16px;background:rgba(8,24,60,0.96);border:1px solid rgba(63,224,255,0.28);box-shadow:0 24px 50px -16px rgba(0,0,0,0.8), 0 0 40px -20px rgba(63,224,255,0.5);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);display:flex;flex-direction:column;gap:2px">
+                          <sc-for list="{{ trLangItems }}" as="lo" hint-placeholder-count="4">
+                            <button role="option" aria-selected="{{ lo.on }}" onClick="{{ lo.pick }}" style="display:flex;align-items:center;justify-content:space-between;gap:12px;height:38px;padding:0 12px;border-radius:10px;border:none;background:{{ lo.bg }};color:{{ lo.color }};font-size:14px;font-weight:500;cursor:pointer;text-align:left" style-hover="background:rgba(63,224,255,0.12)"><span>{{ lo.label }}</span><span style="color:#3FE0FF;opacity:{{ lo.tick }};font-size:13px">✓</span></button>
+                          </sc-for>
+                        </div>
+                      </sc-if>
+                    </div>
                   </div>
                   <div style="display:flex;flex-direction:column;gap:8px;direction:{{ trDir }}">
                     <sc-for list="{{ trOut }}" as="ln"><p style="margin:0;padding:8px 10px;font-size:15px;line-height:1.6;color:#EAF2FF">{{ ln.text }}</p></sc-for>
@@ -1087,25 +1167,41 @@ input[type=range]{accent-color:#3FE0FF}
             </div>
           </sc-if>
 
-          <sc-if value="{{ isChat }}">
-            <div style="display:flex;flex-direction:column;gap:14px;min-height:100%">
-              <div style="display:flex;flex-direction:column;gap:12px;flex:1">
-                <sc-for list="{{ chatMsgs }}" as="m">
-                  <div style="display:flex;flex-direction:column;gap:5px;align-items:{{ m.align }}">
-                    <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#6F8FC9">{{ m.who }}</span>
-                    <div style="max-width:86%;padding:12px 16px;border-radius:18px;background:{{ m.bg }};border:1px solid {{ m.border }};color:{{ m.color }};font-size:15px;line-height:1.6;white-space:pre-wrap">{{ m.text }}</div>
-                  </div>
-                </sc-for>
-                <sc-if value="{{ chatLoading }}"><div style="display:flex;align-items:center;gap:10px;padding:12px 16px;width:max-content;border-radius:18px;background:rgba(255,255,255,0.05);border:1px solid rgba(150,190,255,0.16)">{{ typingDots }}</div></sc-if>
+          <sc-if value="{{ isChat }}" hint-placeholder-val="{{ false }}">
+            <div dir="rtl" style="position:relative;flex:none;min-height:100%;box-sizing:border-box;display:flex;flex-direction:column;gap:14px;padding:22px 22px 18px;border-radius:18px;background:#FFFFFF;color:#1F2A44;font-family:'Readex Pro','Cairo',system-ui,sans-serif;box-shadow:0 30px 70px -30px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.6);opacity:{{ askCard.op }};transform:{{ askCard.tf }};transition:opacity .5s ease, transform .6s cubic-bezier(.2,.7,.2,1)">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+                <h3 style="margin:0;font-size:clamp(18px,1.6vw,21px);line-height:1.35;font-weight:700;color:#1F2A44">اسأل عن تغطية "العربي الجديد"</h3>
+                <button onClick="{{ closeDemo }}" aria-label="إغلاق" style="flex:none;width:28px;height:28px;border:none;background:transparent;color:#C4CAD6;font-size:24px;line-height:1;cursor:pointer;padding:0" style-hover="color:#7A8399">×</button>
               </div>
-              <div style="display:flex;flex-wrap:wrap;gap:8px">
-                <sc-for list="{{ chatChips }}" as="c"><button onClick="{{ c.onClick }}" style="height:36px;padding:0 14px;border-radius:9999px;border:1px solid rgba(63,224,255,0.35);background:rgba(63,224,255,0.06);color:#DDF8FF;font-size:13px;cursor:pointer" style-hover="background:rgba(63,224,255,0.16)">{{ c.label }}</button></sc-for>
+              <sc-if value="{{ askNoConvo }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;flex-direction:column;gap:4px">
+                  <sc-for list="{{ askQs }}" as="q" hint-placeholder-count="6">
+                    <button onClick="{{ q.onClick }}" style="display:flex;align-items:flex-start;gap:10px;padding:9px 6px;border:none;border-radius:10px;background:transparent;color:#2A3550;font-family:inherit;font-size:clamp(14px,1.15vw,16px);line-height:1.6;text-align:right;cursor:pointer;opacity:{{ q.op }};transform:{{ q.tf }};transition:opacity .45s ease {{ q.delay }}, transform .55s cubic-bezier(.2,.7,.2,1) {{ q.delay }}, background .2s" style-hover="background:#F1F5FD;color:#2F5FBF">
+                      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;margin-top:4px"><path d="M15 3l1.6 3.4L20 8l-3.4 1.6L15 13l-1.6-3.4L10 8l3.4-1.6z" fill="#4F7BD9"></path><circle cx="7" cy="17" r="2.4" fill="#4F7BD9"></circle></svg>
+                      <span style="flex:1;min-width:0;text-wrap:pretty">{{ q.text }}</span>
+                    </button>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <sc-if value="{{ askHasConvo }}" hint-placeholder-val="{{ false }}">
+                <div style="flex:1;display:flex;flex-direction:column;gap:12px;min-height:0">
+                  <sc-for list="{{ askMsgs }}" as="m" hint-placeholder-count="0">
+                    <div style="display:flex;flex-direction:column;gap:4px;align-items:{{ m.align }};animation:wwFadeUp .45s cubic-bezier(.2,.7,.2,1) both">
+                      <span style="font-size:11px;color:#8A93A8">{{ m.who }}</span>
+                      <div dir="auto" style="max-width:88%;padding:11px 15px;border-radius:14px;background:{{ m.bg }};color:{{ m.color }};font-size:15px;line-height:1.65;white-space:pre-wrap;text-align:start">{{ m.text }}</div>
+                    </div>
+                  </sc-for>
+                  <sc-if value="{{ chatLoading }}"><div style="align-self:flex-end;display:flex;align-items:center;padding:12px 16px;border-radius:14px;background:#F1F4FA">{{ askDots }}</div></sc-if>
+                  <button onClick="{{ askReset }}" style="align-self:flex-start;height:32px;padding:0 12px;border-radius:9999px;border:1px solid #D9DEE8;background:#FFFFFF;color:#4F7BD9;font-family:inherit;font-size:13px;cursor:pointer" style-hover="background:#F1F5FD">أسئلة مقترحة</button>
+                </div>
+              </sc-if>
+              <div style="flex:none;display:flex;align-items:center;gap:10px;min-height:64px;padding:8px 14px 8px 8px;border-radius:12px;border:1px solid {{ askBorder }};background:#FFFFFF;transition:border-color .25s, box-shadow .25s;box-shadow:{{ askShadow }}">
+                <input value="{{ askInput }}" onChange="{{ onAskInput }}" onKeyDown="{{ onAskKey }}" onFocus="{{ askFocus }}" onBlur="{{ askBlur }}" placeholder="اسألني..." aria-label="اسألني" style="flex:1;min-width:0;height:44px;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;color:#1F2A44;text-align:right">
+                <button onClick="{{ chatMic }}" aria-label="تحدث" style="flex:none;width:46px;height:46px;border-radius:50%;border:1px solid #D9DEE8;background:{{ askMicBg }};color:#4F7BD9;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s" style-hover="background:#F1F5FD"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0"></path><path d="M12 18v3"></path></svg></button>
               </div>
-              <div style="display:flex;gap:8px;align-items:center;padding:6px;border-radius:9999px;background:#FFFFFF;border:1px solid rgba(255,255,255,0.9)">
-                <input value="{{ chatInput }}" onChange="{{ onChatInput }}" onKeyDown="{{ onChatKey }}" placeholder="Ask about any capability" aria-label="Message" style="flex:1;min-width:0;height:44px;background:transparent;border:none;color:#0A1F44;padding:0 14px;font-size:15px;outline:none">
-                <sc-if value="{{ micSupported }}"><button onClick="{{ chatMic }}" aria-label="Speak your question" style="flex:none;height:44px;padding:0 14px;border-radius:9999px;border:1px solid rgba(150,190,255,0.25);background:{{ chatMicBg }};color:#EAF2FF;font-size:13px;cursor:pointer">{{ chatMicLabel }}</button></sc-if>
-                <button onClick="{{ chatSend }}" aria-label="Send" style="flex:none;height:44px;padding:0 20px;border-radius:9999px;border:none;background:linear-gradient(135deg,#4FB2FF,#3FE0FF);color:#03122B;font-size:14px;font-weight:600;cursor:pointer">Send</button>
-              </div>
+              <button onClick="{{ askSend }}" disabled="{{ askEmpty }}" style="flex:none;height:54px;min-height:54px;border:none;border-radius:10px;background:{{ askSendBg }};color:#FFFFFF;font-family:inherit;font-size:18px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:12px;cursor:{{ askSendCursor }};transition:background .3s, transform .2s" style-active="transform:scale(0.98)">إرسال<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"></path><path d="M11 6l-6 6 6 6"></path></svg></button>
+              <p style="margin:0;font-size:12px;line-height:1.75;color:#6B7489;text-wrap:pretty">يتم إنشاء النصوص والإجابات بواسطة الذكاء الاصطناعي اعتمادًا على تقارير العربي الجديد المنشورة خلال العامين الأخيرين، لذا يُنصح بالتحقق من المصادر المرفقة.</p>
+              <p style="margin:0;font-size:12px;line-height:1.75;color:#6B7489;font-weight:600">هذا الموقع محمي بواسطة reCAPTCHA وتطبّق عليه <a href="https://policies.google.com/privacy" target="_blank" rel="noopener" style="color:#4F7BD9;text-decoration:underline">سياسة الخصوصية</a> و<a href="https://policies.google.com/terms" target="_blank" rel="noopener" style="color:#4F7BD9;text-decoration:underline">شروط الخدمة</a> الخاصة بشركة Google.</p>
             </div>
           </sc-if>
 
@@ -1117,12 +1213,9 @@ input[type=range]{accent-color:#3FE0FF}
 
 </div>
 
-<div style="position:fixed;left:20px;bottom:20px;z-index:300;display:flex;gap:4px;padding:4px;border-radius:9999px;background:rgba(9,9,11,0.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.14);font-family:'Readex Pro',system-ui,sans-serif">
-  <button onClick="{{ toV1 }}" style="height:36px;padding:0 16px;border-radius:9999px;border:none;cursor:pointer;font-size:13px;font-weight:500;background:{{ sw1Bg }};color:{{ sw1Fg }}">Option 01</button>
-  <button onClick="{{ toV2 }}" style="height:36px;padding:0 16px;border-radius:9999px;border:none;cursor:pointer;font-size:13px;font-weight:500;background:{{ sw2Bg }};color:{{ sw2Fg }}">Option 02</button>
-</div>
+
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;siteVersion&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;01&quot;,&quot;02&quot;],&quot;default&quot;:&quot;01&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Version&quot;},&quot;liveAI&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Demos&quot;},&quot;motionSpeed&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1,&quot;min&quot;:0.3,&quot;max&quot;:1.6,&quot;step&quot;:0.1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Motion&quot;},&quot;cursorGlow&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Motion&quot;},&quot;labeebVideo&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Solutions&quot;},&quot;muraqibVideo&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Solutions&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;siteVersion&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;01&quot;,&quot;02&quot;],&quot;default&quot;:&quot;01&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Version&quot;},&quot;liveAI&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Demos&quot;},&quot;motionSpeed&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1,&quot;min&quot;:0.3,&quot;max&quot;:1.6,&quot;step&quot;:0.1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Motion&quot;},&quot;cursorGlow&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Motion&quot;},&quot;labeebVideo&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Solutions&quot;},&quot;muraqibVideo&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Solutions&quot;},&quot;nasherVideo&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Solutions&quot;}}">
 class Component extends DCLogic {
   D = {
     features: [
@@ -1238,7 +1331,7 @@ class Component extends DCLogic {
   };
 
   state = {
-    podHosts: [{ name: 'Nova', gender: 'female' }, { name: 'Atlas', gender: 'male' }], cfIdx: 0, cfRun: false, cfPaused: false, cfDrag: null, lampOn: true, robotIntro: 'center', formPhase: 'gathering',
+    podHosts: [{ name: 'Nova', gender: 'female' }, { name: 'Atlas', gender: 'male' }], cfIdx: 0, cfRun: false, cfPaused: false, cfDrag: null, o2LampOn: false, lampOn: true, robotIntro: 'center', formPhase: 'gathering',
     narrow: false, heroIn: false, section: 'overview', active: 0, hover: null, nextIn: false, hoverNext: null, solIn: false, solHover: null, solPop: false,
     tawTab: 0, tawAnim: false, faqOpen: 0, faqIn: false, contactIn: false, cName: '', cEmail: '', cOrg: '', cTopic: 0, cMsg: '', cStatus: 'idle', cErr: '', cDone: false,
     open: null, ovIn: false, guideOpen: false, tour: null, micError: '', tawPlaying: false, tawTime: 0, tawDur: 0, tawMuted: false,
@@ -1259,8 +1352,9 @@ class Component extends DCLogic {
   o2cRef = el => { this.o2cCv = el; };
   logoUrls = { 'alaraby-aljadeed.png': 'https://www.alaraby.co.uk/', 'newarab.png': 'https://www.newarab.com/', 'syria.png': 'https://www.syria.tv/', 'atv.svg': 'https://www.alaraby.com/' };
   usedLogos(used) { return (used || []).map(([file, name, w]) => { const r = window.__resources && window.__resources['logo-' + file.replace(/\.\w+$/, '')], href = this.logoUrls[file];
-    const src = r || 'assets/logos/' + file; return { name, href, src, w: (w || 84) + 'px', bg: 'url("' + (r || 'assets/logos/' + file) + '")', cursor: href ? 'pointer' : 'default', stopPd: e => e.stopPropagation(), stop: e => { e.stopPropagation(); if (!href) e.preventDefault(); } }; }); }
-  isV2Now() { let sv = null; try { sv = localStorage.getItem('aiLabVersion'); } catch (e) {} return (this.state.o2v || sv || this.props.siteVersion || '01') === '02'; }
+    const src = r || 'assets/logos/' + file; this.logoRatio = this.logoRatio || {}; if (this.logoRatio[file] === undefined) { this.logoRatio[file] = null; const im = new Image(); im.onload = () => { this.logoRatio[file] = im.naturalWidth / im.naturalHeight; this.forceUpdate(); }; im.src = src; }
+      const ratio = this.logoRatio[file]; return { name, href, src, w: (ratio ? Math.min(110, Math.round(24 * ratio)) : (w || 84)) + 'px', bg: 'url("' + (r || 'assets/logos/' + file) + '")', cursor: href ? 'pointer' : 'default', stopPd: e => e.stopPropagation(), stop: e => { e.stopPropagation(); if (!href) e.preventDefault(); } }; }); }
+  isV2Now() { return true; }
   sumFetch = async e => {
     if (e) e.preventDefault();
     const raw = (this.state.sumUrl || '').trim();
@@ -1280,6 +1374,34 @@ class Component extends DCLogic {
       this.setState({ sumCrawling: false, sumUrlErr: true, sumUrlMsg: 'Could not read that page. Paste the article text below instead.' });
     }
   };
+  DOCS = { 1: { dir: 'morrakeb-pages', key: 'mk', n: 20, ratio: '16 / 9', maxW: '100%', title: 'The AI-Native Media Ecosystem', kind: 'Presentation' }, 2: { dir: 'nasher-pages', key: 'ns', n: 8, ratio: '16 / 9', maxW: '100%', title: 'Nasher Studio', kind: 'Presentation' }, 3: { dir: 'tawazi-pages', key: 'tw', n: 18, ratio: '16 / 9', maxW: '100%', title: 'Tawazi AI Delivery', kind: 'Presentation' } };
+  syncProdText = () => { const sec = document.getElementById('o2-products'); if (!sec) return; const blocks = [...sec.querySelectorAll('a > div:last-child')]; blocks.forEach(b => b.style.minHeight = ''); const m = Math.max(0, ...blocks.map(b => b.offsetHeight)); blocks.forEach(b => b.style.minHeight = m + 'px'); };
+  trSetFile = f => { if (this.state.trVideo) URL.revokeObjectURL(this.state.trVideo); const mb = f.size / 1048576; this.setState({ trVideo: URL.createObjectURL(f), trVideoName: f.name, trVideoSize: mb >= 1 ? mb.toFixed(1) + ' MB' : Math.round(f.size / 1024) + ' KB', trVideoDur: '' }); };
+  ppBoxRef = el => { this.ppBox = el; };
+  pipScroll = e => {
+    const box = e.currentTarget, m = box.querySelector('[data-pip]'); if (!m) return;
+    let top = 0, left = 0, el = m; while (el && el !== box) { top += el.offsetTop; left += el.offsetLeft; el = el.offsetParent; }
+    const st = box.scrollTop, w = m.offsetWidth, hh = m.offsetHeight, bw = box.clientWidth, gap = 16;
+    const p = Math.max(0, Math.min(1, (st - top + gap) / (hh * 0.75))), s = 1 - (1 - Math.min(1, 300 / w)) * p;
+    const ty = Math.max(0, st - top + gap), tx = p * (bw - gap - (left + w));
+    m.style.transform = p > 0 || ty > 0 ? 'translate(' + tx.toFixed(1) + 'px,' + ty.toFixed(1) + 'px) scale(' + s.toFixed(4) + ')' : '';
+    m.style.boxShadow = p > 0.05 ? '0 24px 60px -18px rgba(0,0,0,0.85), 0 0 0 1px rgba(63,224,255,' + (0.45 * p).toFixed(2) + ')' : '';
+  };
+  docThumbsRef = el => { this.docThumbsEl = el; }; ppDocRef = el => { this.ppDocEl = el; };
+  ppOpenFn = i => {
+    this.ppLast = document.activeElement; document.body.style.overflow = 'hidden'; window.removeEventListener('keydown', this.ppKey);
+    const same = this.state.ppIdx === i;
+    if (this.ppBox) { this.ppBox.scrollTop = 0; const m = this.ppBox.querySelector('[data-pip]'); if (m) { m.style.transform = ''; m.style.boxShadow = ''; } }
+    this.setState({ ppIdx: i, ppIn: same, docPage: same ? this.state.docPage : 1 }, () => { if (!same) setTimeout(() => { if (this.state.ppIdx === i) this.setState({ ppIn: true }); }, 30); });
+    this.ppKey = e => { if (!this.state.ppIn) return; if (e.key === 'Escape') this.ppClose(); else if (e.key === 'ArrowRight') this.docGo(this.state.docPage + 1); else if (e.key === 'ArrowLeft') this.docGo(this.state.docPage - 1); };
+    window.addEventListener('keydown', this.ppKey);
+  };
+  ppClose = () => { this.setState({ ppIn: false }); window.removeEventListener('keydown', this.ppKey); if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); document.body.style.overflow = ''; this.ppLast && this.ppLast.focus && this.ppLast.focus({ preventScroll: true }); };
+  docGo = n => {
+    const N = (this.DOCS[this.state.ppIdx] || {}).n || 1; n = Math.max(1, Math.min(N, n)); if (n === this.state.docPage) return;
+    this.docDir = n > this.state.docPage ? 1 : -1; this.setState({ docPage: n });
+    const el = this.docThumbsEl, t = el && el.children[n - 1]; if (t) el.scrollTo({ left: t.offsetLeft - el.clientWidth / 2 + t.clientWidth / 2, behavior: 'smooth' });
+  };
   usedFor(id) { for (const c of this.O2.cats) for (const it of c.items) if (it.id === id) return it.used || []; return []; }
   heroRef = el => { this.heroCv = el; };
   stageRef = el => { this.stageCv = el; };
@@ -1297,12 +1419,12 @@ class Component extends DCLogic {
     this.cfTimer = setTimeout(() => { if (this.state.nextIn && this.state.open == null && !this.state.cfPaused) this.cfGo(this.state.cfIdx + 1); else this.cfGo(this.state.cfIdx); }, 5500);
   }
   solOpen(k) {
-    this.solLast = document.activeElement; document.body.style.overflow = 'hidden';
-    this.setState({ solHover: k, solPop: false }, () => requestAnimationFrame(() => requestAnimationFrame(() => this.setState({ solPop: true }))));
+    clearTimeout(this.solCloseT); this.solLast = document.activeElement; document.body.style.overflow = 'hidden';
+    this.setState({ solHover: k, solPop: false }, () => setTimeout(() => { if (this.state.solHover === k) this.setState({ solPop: true }); }, 30));
   }
   solClose = () => {
     this.setState({ solPop: false });
-    setTimeout(() => { this.setState({ solHover: null }); document.body.style.overflow = ''; this.solLast && this.solLast.focus && this.solLast.focus({ preventScroll: true }); }, 320);
+    clearTimeout(this.solCloseT); this.solCloseT = setTimeout(() => { if (this.state.solPop) return; this.setState({ solHover: null }); document.body.style.overflow = ''; this.solLast && this.solLast.focus && this.solLast.focus({ preventScroll: true }); }, 320);
   };
   solViz(k) {
     this._sv = this._sv || {}; const key = k + (this.reduce ? 'r' : '');
@@ -1498,6 +1620,7 @@ class Component extends DCLogic {
   }
 
   componentDidMount() {
+    this.prodRO = new ResizeObserver(() => { cancelAnimationFrame(this.prodRaf); this.prodRaf = requestAnimationFrame(this.syncProdText); }); this.prodRO.observe(document.body); setTimeout(this.syncProdText, 300); document.fonts && document.fonts.ready.then(this.syncProdText);
     this.reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
     this.SR = window.SpeechRecognition || window.webkitSpeechRecognition || null;
     this.T = 0; this.last = performance.now(); this.energy = 0; this.mx = 0; this.my = 0;
@@ -1625,15 +1748,15 @@ class Component extends DCLogic {
   openDemo(i) {
     const f = this.D.features[i];
     if (f.type === 'external' && f.externalUrl) { window.open(f.externalUrl, '_blank', 'noopener'); return; }
-    this.lastFocus = document.activeElement;
+    clearTimeout(this.demoCloseT); this.lastFocus = document.activeElement;
     this.setState({ open: i, ovIn: false });
     if (i === 6) this.setTawTab(0);
     document.body.style.overflow = 'hidden';
-    requestAnimationFrame(() => requestAnimationFrame(() => { this.setState({ ovIn: true }); this.closeEl && this.closeEl.focus(); }));
+    setTimeout(() => { if (this.state.open === i) { this.setState({ ovIn: true }); this.closeEl && this.closeEl.focus({ preventScroll: true }); } }, 30);
   }
   closeDemo = () => {
     this.stopAll(); clearTimeout(this.tabTimer); this.setState({ ovIn: false, tawFs: false });
-    setTimeout(() => { this.setState({ open: null }); document.body.style.overflow = ''; this.lastFocus && this.lastFocus.focus && this.lastFocus.focus({ preventScroll: true }); }, 320);
+    clearTimeout(this.demoCloseT); this.demoCloseT = setTimeout(() => { if (this.state.ovIn) return; this.setState({ open: null }); document.body.style.overflow = ''; this.lastFocus && this.lastFocus.focus && this.lastFocus.focus({ preventScroll: true }); }, 320);
   };
   ttsToggle = () => {
     if (this.state.ttsSpeaking) { this.stopAll(); return; }
@@ -2230,9 +2353,9 @@ class Component extends DCLogic {
     ],
     products: [
       { cat: 'Digital', name: 'Labeeb', desc: 'Digital-first AI product.', more: 'Our super CMS. Labeeb aggregates every brand’s CMS into one view of every story, in every status — different audiences, different CMSs, one shared AI layer serving all of them.', vk: 'labeebVideo' },
-      { cat: 'TV', name: 'Morrakeb', desc: 'AI-powered television and media intelligence.', vk: 'muraqibVideo' },
-      { cat: 'Social Media', name: 'Nashir', desc: 'Intelligent publishing solutions.' },
-      { cat: 'Technology', name: 'Tawazi', desc: 'AI-driven technology and software development.' }
+      { cat: 'TV', name: 'Morrakeb', desc: 'AI-powered television and media intelligence.', more: 'Morrakeb watches live and archived broadcasts, transcribes and tags every segment, and surfaces what matters across channels so newsrooms can search, clip and react in minutes.', vk: 'muraqibVideo' },
+      { cat: 'Social Media', name: 'Nasher', desc: 'Intelligent publishing solutions.', more: 'Nasher Studio turns one story into ready-to-post formats for every platform, adapting copy, visuals and timing per channel while editors keep the final say.' },
+      { cat: 'Technology', name: 'Tawazi', desc: 'AI-driven technology and software development.', more: 'Tawazi is our AI delivery team, building and shipping the tools behind every product with faster cycles, shared components and AI built into the workflow.' }
     ],
     faq: [
       { q: 'What types of AI solutions are available?', a: 'Three groups of services that plug into one editorial cycle: Editorial (gap analysis, AI drafts and the AI Editorial Assistant), Experience (text-to-speech, summarization, AI podcast, transcription and translation, live captions and an AI chatbot) and Analytics (workflow and performance monitoring). Each module is built once and configured per brand: style, language and tone.' },
@@ -2255,9 +2378,9 @@ class Component extends DCLogic {
   o2Flat() { const f = []; this.O2.cats.forEach(c => c.items.forEach(it => f.push(it.id))); return f; }
   o2Go = i => { const t = this.o2TrackRef.current; if (!t || !t.children[i]) return; t.scrollTo({ left: t.children[i].offsetLeft - t.children[0].offsetLeft, behavior: 'smooth' }); this.setState({ o2ix: i }); };
   o2GoId = id => this.o2Go(Math.max(0, this.o2Flat().indexOf(id)));
-  o2DragDown = e => { if (e.pointerType !== 'mouse') return; const t = this.o2TrackRef.current; if (!t) return; this.o2drag = { x: e.clientX, sl: t.scrollLeft, moved: false }; t.style.scrollSnapType = 'none'; t.style.scrollBehavior = 'auto'; t.style.cursor = 'grabbing'; };
-  o2DragMove = e => { const d = this.o2drag, t = this.o2TrackRef.current; if (!d || !t) return; const dx = e.clientX - d.x; if (Math.abs(dx) > 3) d.moved = true; t.scrollLeft = d.sl - dx; };
-  o2DragUp = () => { const t = this.o2TrackRef.current; if (!this.o2drag || !t) return; this.o2dragMoved = this.o2drag.moved; this.o2drag = null; t.style.cursor = 'grab'; t.style.scrollBehavior = 'smooth'; t.style.scrollSnapType = 'x mandatory'; };
+  o2DragDown = e => { if (e.pointerType !== 'mouse') return; const t = this.o2TrackRef.current; if (!t) return; this.o2drag = { x: e.clientX, sl: t.scrollLeft, moved: false }; };
+  o2DragMove = e => { const d = this.o2drag, t = this.o2TrackRef.current; if (!d || !t) return; const dx = e.clientX - d.x; if (!d.moved && Math.abs(dx) > 8) { d.moved = true; t.style.scrollSnapType = 'none'; t.style.scrollBehavior = 'auto'; t.style.cursor = 'grabbing'; } if (!d.moved) return; t.scrollLeft = d.sl - dx; };
+  o2DragUp = () => { const t = this.o2TrackRef.current; if (!this.o2drag || !t) return; this.o2dragMoved = this.o2drag.moved; clearTimeout(this.o2dmT); this.o2dmT = setTimeout(() => { this.o2dragMoved = false; }, 60); const mv = this.o2drag.moved; this.o2drag = null; if (mv) { t.style.cursor = 'grab'; t.style.scrollBehavior = 'smooth'; t.style.scrollSnapType = 'x mandatory'; } };
   o2NoDrag = e => e.preventDefault();
   o2OnScroll = e => { const t = e.currentTarget, c = t.children; const max = t.scrollWidth - t.clientWidth, pr = max > 0 ? t.scrollLeft / max : 0, tw = Math.max(12, Math.min(100, t.clientWidth / t.scrollWidth * 100)); if (Math.abs(pr - (this.state.o2pr || 0)) > 0.004 || tw !== this.state.o2tw) this.setState({ o2pr: pr, o2tw: tw }); if (c.length < 2) return; const step = c[1].offsetLeft - c[0].offsetLeft; const i = t.scrollLeft + t.clientWidth >= t.scrollWidth - 4 ? c.length - 1 : Math.round(t.scrollLeft / step); if (i !== this.state.o2ix) this.setState({ o2ix: i }); };
   o2fListRef = React.createRef();
@@ -2301,12 +2424,13 @@ class Component extends DCLogic {
   v2Vals() {
     const s = this.state, O = this.O2, RED = '#DB2F21';
     let saved = null; try { saved = localStorage.getItem('aiLabVersion'); } catch (e) {}
-    const ver = s.o2v || saved || this.props.siteVersion || '01', on = ver === '02';
+    const ver = '02', on = true;
     this.o2Timer(on);
     const k = s.o2s || 0, open = s.o2open === undefined ? 'gap' : s.o2open, fo = s.o2faq === undefined ? 0 : s.o2faq;
     const live = this.live();
     return {
       isV2: on, v1Display: on ? 'none' : 'block',
+      heroVidRef: this.heroVidRef || (this.heroVidRef = el => { if (el) { el.muted = true; el.defaultMuted = true; el.volume = 0; if (!el._m) { el._m = 1; const f = () => { if (!el.muted) el.muted = true; }; el.addEventListener('volumechange', f); el.addEventListener('loadedmetadata', f); el.loop = true; el.autoplay = true; el.addEventListener('ended', () => { el.currentTime = 0; el.play().catch(() => {}); }); el.addEventListener('pause', () => { if (!el.ended) setTimeout(() => el.play().catch(() => {}), 50); }); } const p = el.play(); if (p && p.catch) p.catch(() => {}); } }),
       toV1: () => this.setVer('01'), toV2: () => this.setVer('02'),
       sw1Bg: on ? 'transparent' : '#FFFFFF', sw1Fg: on ? '#D4D4D8' : '#09090B', sw2Bg: on ? '#FFFFFF' : 'transparent', sw2Fg: on ? '#09090B' : '#D4D4D8',
       o2Nav: [['AI Summarisation', 'sum'], ['Podcast AI', 'pod'], ['Text To Speech (TTS)', 'tts'], ['More Tools', null, '#o2-products'], ['Contact Us', null, '#o2-contact']].map(([label, id, href]) => ({ label, href: href || '#o2-services', onClick: () => { if (id) { this.setState({ o2open: id }); setTimeout(() => this.o2GoId(id), 500); } } })),
@@ -2352,18 +2476,28 @@ class Component extends DCLogic {
         };
       })(),
       ...(() => { let it = null, cat = null; O.cats.forEach(c => c.items.forEach(x => { if (x.id === s.o2info) { it = x; cat = c; } }));
-        return { ovW: on ? 'min(1120px,100%)' : 'min(1200px,100%)', ovH: on ? 'min(760px,100%)' : 'min(880px,100%)', ovScrim: on ? 'rgba(2,12,34,0.5)' : 'rgba(2,6,16,0.62)', ovScrimBlur: on ? 'blur(8px)' : 'blur(14px)', ovGlass: on ? 'blur(30px) saturate(140%)' : 'none',
+        return { ovW: on ? 'min(1120px,100%)' : 'min(1200px,100%)', ovH: on ? 'min(760px,100%)' : 'min(880px,100%)', ovScrim: on ? 'rgba(2,6,16,0.55)' : 'rgba(2,6,16,0.62)', ovScrimBlur: on ? 'blur(14px)' : 'blur(14px)', ovGlass: on ? 'blur(30px) saturate(160%)' : 'none',
           ovBodyPad: on ? 'clamp(24px,3vw,40px)' : '24px', ovBodyGap: on ? '28px' : '20px', ovHeadPad: on ? '18px 20px 18px clamp(24px,3vw,40px)' : '16px 18px 16px 24px',
-          ovShadow: on ? 'inset 0 1px 0 rgba(255,255,255,0.14), 0 0 0 1px rgba(63,224,255,0.08), 0 50px 120px -40px rgba(0,10,40,0.75), 0 0 90px -30px rgba(63,224,255,0.45)' : 'inset 0 1px 0 rgba(255,255,255,0.08), 0 60px 120px -40px rgba(0,0,0,0.9)',
-          ovLeftBg: on ? 'linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0))' : 'linear-gradient(180deg, rgba(20,44,100,0.35), rgba(4,10,26,0.2))',
-          ovBg: on ? 'linear-gradient(150deg, rgba(14,52,118,0.9) 0%, rgba(4,32,80,0.9) 55%, rgba(3,20,50,0.92) 100%)' : 'linear-gradient(160deg, rgba(16,30,70,0.85), rgba(5,10,26,0.92))', ovBorder: on ? 'rgba(63,224,255,0.28)' : 'rgba(150,190,255,0.2)',
-          rootFont: on ? "'Inter', sans-serif" : '"Readex Pro","Cairo",system-ui,sans-serif', o2InfoOpen: !!it, o2Info: it ? { cat: cat.name, glyph: cat.glyph, name: it.name, desc: it.desc, pts: it.pts, hasPts: it.pts.length > 0 } : { pts: [] }, o2InfoClose: () => this.setState({ o2info: null }), o2Stop: e => e.stopPropagation() }; })(),
+          ovShadow: on ? 'inset 0 1px 0 rgba(255,255,255,0.18), 0 60px 120px -40px rgba(0,0,0,0.9), 0 0 80px -30px rgba(63,224,255,0.5)' : 'inset 0 1px 0 rgba(255,255,255,0.08), 0 60px 120px -40px rgba(0,0,0,0.9)',
+          ovLeftBg: on ? 'transparent' : 'linear-gradient(180deg, rgba(20,44,100,0.35), rgba(4,10,26,0.2))',
+          ovBg: on ? 'linear-gradient(150deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03) 40%, rgba(63,224,255,0.06))' : 'linear-gradient(160deg, rgba(16,30,70,0.85), rgba(5,10,26,0.92))', ovBorder: on ? 'rgba(255,255,255,0.16)' : 'rgba(150,190,255,0.2)',
+          rootFont: on ? "'Inter', sans-serif" : '"Readex Pro","Cairo",system-ui,sans-serif', o2InfoOpen: !!it, o2Info: it ? { slot: 'feat-' + it.id, slotPh: 'Drop a ' + it.name + ' image', cat: cat.name, glyph: cat.glyph, name: it.name, desc: it.desc, pts: it.pts, hasPts: it.pts.length > 0 } : { pts: [], slot: 'feat-x', slotPh: '', cat: '', glyph: '', name: '', desc: '', hasPts: false }, pipScroll: this.pipScroll, o2InfoClose: () => this.setState({ o2info: null }), o2Stop: e => e.stopPropagation() }; })(),
+      ...(() => { const pi = s.ppIdx, P = O.products[pi], DC = this.DOCS[pi], pg = s.docPage || 1, N = DC ? DC.n : 1, src = k => { const f = 'p' + String(k).padStart(2, '0'); const r = DC && window.__resources && window.__resources[DC.key + '-' + f]; return 'url("' + (r || 'assets/' + (DC ? DC.dir : '') + '/' + f + '.png') + '")'; };
+        const slug = P ? P.name.toLowerCase() : 'x', doc = !!DC, isNs = pi === 2, nsVid = (this.props.nasherVideo || '').trim(), lr = window.__resources && window.__resources['nasher-logo'];
+        return { ppOpen: pi != null && pi !== 0, ppClose: this.ppClose, ppBoxRef: this.ppBoxRef, pipScroll: this.pipScroll, ppBgOp: s.ppIn ? 1 : 0, ppPE: s.ppIn ? 'auto' : 'none', ppBoxTf: s.ppIn ? 'none' : 'translateY(24px) scale(0.97)', ppDocRef: this.ppDocRef, docThumbsRef: this.docThumbsRef,
+          docTitle: DC ? DC.title : '', docKind: DC ? DC.kind : '', docRatio: DC ? DC.ratio : '16 / 9', docMaxW: DC ? DC.maxW : '100%', docMulti: N > 1,
+          pp: P ? { name: P.name, cat: P.cat, desc: P.desc, more: P.more || '', hasMore: !!P.more, hasDoc: doc, hasLogo: isNs, noLogo: !isNs, logoBg: 'url("' + (lr || 'assets/nasher-logo-light.png') + '")', isTw: pi === 3, isImage: !isNs && pi !== 3, hasVideo: isNs && !!nsVid, video: nsVid, videoPh: isNs && !nsVid, logoId: 'pp-logo-' + slug, heroId: 'pp-hero-' + slug, heroPh: 'Drop a ' + P.name + ' image' } : { name: '', cat: '', desc: '', more: '', hasMore: false, hasDoc: false, hasLogo: false, noLogo: true, logoBg: 'none', isTw: false, isImage: true, hasVideo: false, video: '', videoPh: false, logoId: 'pp-logo-x', heroId: 'pp-hero-x', heroPh: '' },
+          docPage: String(pg).padStart(2, '0'), docTotal: String(N).padStart(2, '0'), docProg: (pg / N * 100) + '%',
+          docPrev: () => this.docGo(pg - 1), docNext: () => this.docGo(pg + 1), docPrevOp: pg > 1 ? 1 : 0.35, docNextOp: pg < N ? 1 : 0.35,
+          docFull: () => { const el = this.ppDocEl; if (!el) return; if (document.fullscreenElement) document.exitFullscreen(); else if (el.requestFullscreen) el.requestFullscreen().catch(() => {}); },
+          docSlides: doc ? Array.from({ length: N }, (_, i) => { const k = i + 1, on = k === pg, near = Math.abs(k - pg) <= 1; return { label: 'Slide ' + k, hidden: !on, bg: near ? src(k) : 'none', op: on ? 1 : 0, tf: on ? 'none' : 'translateX(' + (k < pg ? -24 : 24) + 'px)' }; }) : [],
+          docThumbs: doc ? Array.from({ length: N }, (_, i) => { const k = i + 1, on = k === pg; return { n: k, label: 'Go to slide ' + k, onClick: () => this.docGo(k), bg: src(k), border: on ? '#3FE0FF' : 'rgba(255,255,255,0.14)', shadow: on ? '0 0 0 3px rgba(63,224,255,0.25)' : 'none', op: on ? 1 : 0.7 }; }) : [] }; })(),
       o2cRef: this.o2cRef, o2cSent: !!s.o2cSent, o2cOpen: !s.o2cSent, o2cName: s.o2cName || '', o2cEmail: s.o2cEmail || '', o2cInterest: s.o2cInterest || '',
       o2cTopics: ['AI Summarization', 'AI Podcast', 'Text tools', 'Transcription & Translation', 'Chatbot', 'AI Products', 'Partnership', 'Other'],
       o2cSetName: e => this.setState({ o2cName: e.target.value }), o2cSetEmail: e => this.setState({ o2cEmail: e.target.value }), o2cSetInterest: e => this.setState({ o2cInterest: e.target.value }),
       o2cSubmit: e => { e.preventDefault(); this.cEnergy = 1; this.setState({ o2cSent: true }); },
       o2cReset: () => this.setState({ o2cSent: false, o2cName: '', o2cEmail: '', o2cInterest: '' }),
-      o2Products: O.products.map((p, i) => { const ex = { cref: this.prodCRefs[i], enter: () => this.setState({ hoverProd: i }), leave: () => this.setState({ hoverProd: null }) }; const video = p.vk ? (this.props[p.vk] || '') : ''; const dark = i === 0; return { ...ex, ...p, video, hasVideo: !!video, hasMore: !!p.more, bg: dark ? 'linear-gradient(160deg, rgba(47,107,255,0.35), rgba(63,224,255,0.08))' : 'linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.015))', border: dark ? 'rgba(63,224,255,0.4)' : 'rgba(150,190,255,0.16)' }; }),
+      o2Products: O.products.map((p, i) => { const ex = { hasLogo: i === 0, href: '#' + p.name.toLowerCase(), onClick: e => { e.preventDefault(); if (i === 0) this.solOpen(0); else this.ppOpenFn(i); }, cref: this.prodCRefs[i], enter: () => this.setState({ hoverProd: i }), leave: () => this.setState({ hoverProd: null }) }; const video = p.vk ? (this.props[p.vk] || '') : ''; const dark = i === 0; return { ...ex, ...p, video, hasVideo: !!video, hasMore: !!p.more, bg: dark ? 'linear-gradient(160deg, rgba(47,107,255,0.35), rgba(63,224,255,0.08))' : 'linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.015))', border: dark ? 'rgba(63,224,255,0.4)' : 'rgba(150,190,255,0.16)' }; }),
       o2Faq: O.faq.slice(0, 6).map((f, i) => ({ ...f, open: fo === i, sign: fo === i ? '–' : '+', onClick: () => this.setState({ o2faq: fo === i ? null : i }) })),
       o2Q: s.o2Q || O.q0, o2A: s.o2A || O.a0, o2Input: s.o2Input || '',
       o2OnInput: e => this.setState({ o2Input: e.target.value }), o2OnKey: e => { if (e.key === 'Enter') this.o2Ask(); }, o2Ask: this.o2Ask,
@@ -2407,7 +2541,7 @@ class Component extends DCLogic {
     const solV = {
       sol0: solCard(0), sol1: solCard(1), solViz0: this.solViz(0), solViz1: this.solViz(1), solOpen0: s.solHover === 0, solOpen1: s.solHover === 1, solClose: this.solClose,
       sol0Video: vid(this.props.labeebVideo), sol1Video: vid(this.props.muraqibVideo),
-      solPopIn: { bgOp: s.solPop ? 1 : 0, boxTf: s.solPop ? 'none' : 'translateY(24px) scale(0.97)', op: s.solPop ? 1 : 0, tf: s.solPop ? 'none' : 'translateX(-10px)' },
+      pipScroll: this.pipScroll, solPE: s.solPop ? 'auto' : 'none', solPopIn: { bgOp: s.solPop ? 1 : 0, boxTf: s.solPop ? 'none' : 'translateY(24px) scale(0.97)', op: s.solPop ? 1 : 0, tf: s.solPop ? 'none' : 'translateX(-10px)' },
       solPopCols: narrow ? 'minmax(0,1fr)' : 'minmax(0,1fr) minmax(0,1fr)', solStop: e => e.stopPropagation(),
       solOp: s.solIn || this.reduce ? 1 : 0, solTf: s.solIn || this.reduce ? 'none' : 'translateY(36px)',
       solCols: narrow ? 'minmax(0,1fr)' : 'repeat(2,minmax(0,1fr))'
@@ -2445,7 +2579,7 @@ class Component extends DCLogic {
       robotRef: this.robotRef, nnRef: this.nnRef, robotIn: () => { this.robotHover = true; }, robotOut: () => { this.robotHover = false; },
       guideOrbUnused: React.createElement('span', { style: { width: 26, height: 26, borderRadius: '50%', background: 'radial-gradient(circle at 35% 35%, #E6FBFF, #3FE0FF 35%, #2F6BFF 70%, #0A1430)', boxShadow: '0 0 20px rgba(63,224,255,0.7)', animation: 'wwPulse 3s ease-in-out infinite' } }),
       stopPd: e => e.stopPropagation(), isOpen: s.open != null, closeDemo: this.closeDemo, stop: e => e.stopPropagation(), closeRef: this.closeRef, bodyRef: this.bodyRef, demoRef: this.demoRef, capRef: this.capRef,
-      ovOp: s.ovIn ? 1 : 0, ovTf: s.ovIn ? 'none' : 'translateY(24px) scale(0.97)', ovCols: narrow ? 'minmax(0,1fr)' : (this.isV2Now() ? 'minmax(0,0.75fr) minmax(0,1.25fr)' : 'minmax(0,0.85fr) minmax(0,1.15fr)'), ovRows: narrow ? '170px minmax(0,1fr)' : 'minmax(0,1fr)', ovPad: narrow ? '0' : '28px', ovRadius: narrow ? '0' : '28px',
+      ovOp: s.ovIn ? 1 : 0, ovPE: s.ovIn ? 'auto' : 'none', ovTf: s.ovIn ? 'none' : 'translateY(24px) scale(0.97)', ovCols: narrow ? 'minmax(0,1fr)' : (this.isV2Now() ? 'minmax(0,0.75fr) minmax(0,1.25fr)' : 'minmax(0,0.85fr) minmax(0,1.15fr)'), ovRows: narrow ? '170px minmax(0,1fr)' : 'minmax(0,1fr)', ovPad: narrow ? '0' : '28px', ovRadius: narrow ? '0' : '28px',
       micSupported: mic, micError: s.micError, hasMicError: !!s.micError, canLive: live
     };
 
@@ -2460,8 +2594,8 @@ class Component extends DCLogic {
         chat: live ? ['Live · Responses are generated by Claude.', '#3FE0FF'] : ['Sample · Live AI is not connected.', '#7FA6FF'],
         taw: ['Guided · Recorded video walkthrough.', '#7FA6FF']
       }[f.id];
-      const lgs = this.usedLogos(this.usedFor(f.id)); v.o = { logos: lgs, hasUsed: lgs.length > 0, num: pad2(i + 1), title: f.title, badge: typeLabel[f.type], note: notes[0], noteColor: notes[1], titleSize: narrow ? '22px' : 'clamp(28px,2.6vw,38px)' };
-    } else v.o = { logos: [], hasUsed: false, num: '', title: '', badge: '', note: '', noteColor: '#3FE0FF', titleSize: '28px' };
+      const lgs = this.usedLogos(this.usedFor(f.id)); v.o = { showTitle: !['tts', 'sum', 'pod', 'tr', 'chat'].includes(f.id), logos: lgs, hasUsed: lgs.length > 0, num: pad2(i + 1), title: f.title, badge: typeLabel[f.type], note: notes[0], noteColor: notes[1], titleSize: narrow ? '22px' : 'clamp(28px,2.6vw,38px)' };
+    } else v.o = { showTitle: true, logos: [], hasUsed: false, num: '', title: '', badge: '', note: '', noteColor: '#3FE0FF', titleSize: '28px' };
     v.totalNum = pad2(F.length); v.isTaw = s.open === 6;
     { const TK = D.tawazi[s.tawTab], an = s.tawAnim || this.reduce;
       Object.assign(v, {
@@ -2472,8 +2606,8 @@ class Component extends DCLogic {
         tawPipe: D.tawPipe.map(([t2, d2], i) => { const lit = an && TK.kind === 'modes'; return { t: t2, d: d2, bg: lit ? 'rgba(63,224,255,0.1)' : 'rgba(255,255,255,0.03)', border: lit ? 'rgba(63,224,255,0.45)' : 'rgba(150,190,255,0.14)', shadow: lit ? '0 0 24px -6px rgba(63,224,255,0.6)' : 'none' }; })
       }); }
     Object.assign(v, {
-      logosA: (() => { const L = D.logos.map(([f, n]) => ({ src: (window.__resources && window.__resources['logo-' + f.replace(/\.\w+$/, '')]) || ('assets/logos/' + f), name: n })); return L.concat(L); })(),
-      logosB: (() => { const L = D.logos.slice().reverse().map(([f, n]) => ({ src: (window.__resources && window.__resources['logo-' + f.replace(/\.\w+$/, '')]) || ('assets/logos/' + f), name: n })); const r = L.slice(5).concat(L.slice(0, 5)); return r.concat(r); })(),
+      logosA: (() => { const L = D.logos.map(([f, n]) => { const src = (window.__resources && window.__resources['logo-' + f.replace(/\.\w+$/, '')]) || ('assets/logos/' + f); return { src, bgUrl: 'url("' + src + '")', name: n }; }); return L.concat(L); })(),
+      logosB: (() => { const L = D.logos.slice().reverse().map(([f, n]) => { const src = (window.__resources && window.__resources['logo-' + f.replace(/\.\w+$/, '')]) || ('assets/logos/' + f); return { src, bgUrl: 'url("' + src + '")', name: n }; }); const r = L.slice(5).concat(L.slice(0, 5)); return r.concat(r); })(),
       mqDur: (48 / Math.max(0.25, this.props.motionSpeed ?? 1)) + 's', mqDur2: (56 / Math.max(0.25, this.props.motionSpeed ?? 1)) + 's'
     });
     Object.assign(v, {
@@ -2485,6 +2619,9 @@ class Component extends DCLogic {
         shadow: on ? '0 30px 70px -35px rgba(47,107,255,0.7), inset 0 1px 0 rgba(255,255,255,0.08)' : 'inset 0 1px 0 rgba(255,255,255,0.05)', iconBg: on ? 'rgba(63,224,255,0.18)' : 'rgba(255,255,255,0.03)', numColor: on ? '#3FE0FF' : '#6F8FC9',
         op: vis ? 1 : 0, tf: vis ? 'none' : 'rotateX(-55deg) translateY(30px)', delay: (i * 0.08).toFixed(2) + 's' }; }),
       contactCols: narrow ? 'minmax(0,1fr)' : 'minmax(0,1fr) minmax(0,1fr)', cArtH: narrow ? '560px' : '640px',
+      o2LampRef: this.o2LampRef || (this.o2LampRef = el => { if (this.o2Lamp) { this.o2Lamp.destroy(); this.o2Lamp = null; } if (!el) return; const go = () => { if (!el.isConnected) return; if (!window.WWLamp) return setTimeout(go, 200); this.o2Lamp = window.WWLamp(el, { on: this.state.o2LampOn, cx: 0.24, baseY: 0.9, scale: 0.72, hint: 'Pull the cord', onToggle: on => this.setState({ o2LampOn: on }) }); }; go(); }),
+      o2LampOff: !s.o2LampOn, o2LampWash: s.o2LampOn ? 1 : 0, o2LampFormOp: s.o2LampOn ? 1 : 0.5, o2LampFormFilter: s.o2LampOn ? 'none' : 'saturate(0.4)', o2LampFormTf: s.o2LampOn ? 'none' : 'translateY(10px)', o2LampFormPE: s.o2LampOn ? 'auto' : 'none',
+      o2LampToggle: () => { if (this.state.o2LampOn) return; this.o2Lamp ? this.o2Lamp.setOn(true) : this.setState({ o2LampOn: true }); },
       lampOn: s.lampOn, lampGlow: 0.6, lampFormOp: 1, lampFormFilter: 'none', formPhase: s.formPhase,
       lampLabel: s.lampOn ? 'Light on' : 'Turn on the light', lampDot: s.lampOn ? '#3FE0FF' : 'rgba(150,190,255,0.4)', lampDotGlow: s.lampOn ? '0 0 10px #3FE0FF' : 'none',
       lampToggle: () => { const v = !s.lampOn; this.lamp ? this.lamp.setOn(v) : this.setState({ lampOn: v }); }, lampWake: () => { if (!this.state.lampOn) { this.lamp ? this.lamp.setOn(true) : this.setState({ lampOn: true }); } }, cFieldCols: narrow ? 'minmax(0,1fr)' : 'repeat(2,minmax(0,1fr))',
@@ -2521,6 +2658,22 @@ class Component extends DCLogic {
       tawIdle: !s.tawPlaying
     });
     v.isTts = s.open === 0; v.isSum = s.open === 1; v.isPod = s.open === 2; v.isTr = s.open === 3; v.isCap = s.open === 4; v.isChat = s.open === 5;
+    { const inn = !!s.ovIn && v.isChat, txt = (s.askInput || '').trim();
+      Object.assign(v, {
+        askCard: { op: inn ? 1 : 0, tf: inn ? 'none' : 'translateY(18px) scale(0.98)' },
+        askQs: ['ما خريطة الجبهات المشتعلة حالياً في اليمن؟', 'ما آخر مستجدات جهود وقف الحرب في المنطقة؟', 'ما هي أبرز الدول الأوروبية التي تشهد احتجاجات حالياً؟', 'لماذا علّقت الولايات المتحدة تسليم صواريخ اعتراضية لأوكرانيا؟', 'من هو الأوفر حظاً في الانتخابات البرازيلية 2026؟', 'ما هي جوائز نوبل التي تم الإعلان عنها في 2026؟'].map((t, i) => ({ text: t, op: inn ? 1 : 0, tf: inn ? 'none' : 'translateX(-16px)', delay: (0.15 + i * 0.07).toFixed(2) + 's', onClick: () => this.chatSend(t) })),
+        askHasConvo: s.chatMsgs.some(m => m.role === 'user'), askNoConvo: !s.chatMsgs.some(m => m.role === 'user'),
+        askMsgs: s.chatMsgs.filter(m => !m.intro).map(m => { const u = m.role === 'user', j = s.chatMsgs.indexOf(m), rv = s.chatReveal; return { who: u ? 'أنت' : 'المساعد', text: rv && rv.i === j ? m.text.slice(0, rv.n) : m.text, align: u ? 'flex-start' : 'flex-end', bg: u ? '#2F5FBF' : '#F1F4FA', color: u ? '#FFFFFF' : '#1F2A44' }; }),
+        askDots: React.createElement('span', { style: { display: 'flex', gap: 5 } }, [0, 1, 2].map(k => React.createElement('span', { key: k, style: { width: 7, height: 7, borderRadius: '50%', background: '#4F7BD9', animation: 'wwDot 1.2s ' + (k * 0.15) + 's infinite ease-in-out' } }))),
+        askReset: () => this.setState(st => ({ chatMsgs: st.chatMsgs.filter(m => m.intro), chatReveal: null })),
+        askInput: s.askInput || '', onAskInput: e => this.setState({ askInput: e.target.value }),
+        onAskKey: e => { if (e.key === 'Enter' && txt) { this.chatSend(txt); this.setState({ askInput: '' }); } },
+        askFocus: () => this.setState({ askFocus: true }), askBlur: () => this.setState({ askFocus: false }),
+        askBorder: s.askFocus ? '#4F7BD9' : '#C9CFDB', askShadow: s.askFocus ? '0 0 0 4px rgba(79,123,217,0.12)' : 'none',
+        askMicBg: s.chatMic ? '#E6EEFC' : '#FFFFFF',
+        askEmpty: !txt, askSendBg: txt ? '#2F5FBF' : '#AEBFE0', askSendCursor: txt ? 'pointer' : 'not-allowed',
+        askSend: () => { if (!txt) return; this.chatSend(txt); this.setState({ askInput: '' }); }
+      }); }
 
     // TTS
     const tws = this.wordStarts(s.ttsText); let cur = -1; if (s.ttsSpeaking) tws.forEach((x, j) => { if (x.i <= s.ttsChar) cur = j; });
@@ -2582,14 +2735,23 @@ class Component extends DCLogic {
     const outLines = cache ? cache.lines.slice(0, visibleN).filter(Boolean) : [];
     Object.assign(v, {
       trSources: D.trSamples.map((x, i) => chip(s.trSource === i, () => this.trSelect(i), 'Sample: ' + x.label)).concat(mic ? [chip(isMic, () => this.trSelect(2), 'Your microphone')] : []),
-      trHasVideo: !!s.trVideo, trVideo: s.trVideo || '', trVideoName: s.trVideoName || '',
-      trOnUpload: e => { const f = e.target.files && e.target.files[0]; if (!f) return; if (s.trVideo) URL.revokeObjectURL(s.trVideo); this.setState({ trVideo: URL.createObjectURL(f), trVideoName: f.name }); e.target.value = ''; },
-      trClearVideo: () => { if (s.trVideo) URL.revokeObjectURL(s.trVideo); this.setState({ trVideo: null, trVideoName: '' }); },
-      trAction: this.trAction, trBtn: isMic ? (s.trMic ? 'Stop listening' : 'Start listening') : (s.trPlaying ? 'Stop' : 'Play sample'),
+      trHasVideo: !!s.trVideo, trNoVideo: !s.trVideo, trVideo: s.trVideo || '', trVideoName: s.trVideoName || '',
+      trVideoInfo: [s.trVideoSize, s.trVideoDur].filter(Boolean).join(' · '),
+      trDropBorder: s.trDrag ? '#3FE0FF' : 'rgba(63,224,255,0.45)', trDropBg: s.trDrag ? 'rgba(63,224,255,0.14)' : 'rgba(63,224,255,0.04)', trDropTitle: s.trDrag ? 'Drop to upload' : 'Upload a video or drag it here',
+      trDragOver: e => { e.preventDefault(); if (!s.trDrag) this.setState({ trDrag: true }); }, trDragLeave: () => this.setState({ trDrag: false }),
+      trDrop: e => { e.preventDefault(); const f = e.dataTransfer.files && e.dataTransfer.files[0]; this.setState({ trDrag: false }); if (f && f.type.startsWith('video/')) this.trSetFile(f); },
+      trMeta: e => { const d = e.currentTarget.duration; if (isFinite(d)) this.setState({ trVideoDur: Math.floor(d / 60) + ':' + String(Math.round(d % 60)).padStart(2, '0') }); },
+      trOnUpload: e => { const f = e.target.files && e.target.files[0]; if (!f) return; this.trSetFile(f); e.target.value = ''; },
+      trClearVideo: () => { if (s.trVideo) URL.revokeObjectURL(s.trVideo); this.setState({ trVideo: null, trVideoName: '', trVideoSize: '', trVideoDur: '' }); },
+      trAction: this.trAction, trLocked: !s.trVideo, trBtnBg: s.trVideo ? 'linear-gradient(135deg,#4FB2FF,#3FE0FF)' : 'rgba(255,255,255,0.08)', trBtnFg: s.trVideo ? '#03122B' : 'rgba(220,232,255,0.4)', trBtnCursor: s.trVideo ? 'pointer' : 'not-allowed', trBtn: isMic ? (s.trMic ? 'Stop listening' : 'Start listening') : (s.trPlaying ? 'Stop' : 'Play sample'),
+      trStatusShown: !s.trVideo ? 'Upload a video to enable playback' : (isMic ? (s.trMic ? 'Listening · speak in English' : 'Live transcription from your microphone') : (s.trPlaying ? 'Transcribing\u2026' : 'Ready to play')),
       trStatus: isMic ? (s.trMic ? 'Listening · speak in English' : 'Live transcription from your microphone') : (s.trPlaying ? 'Transcribing\u2026' : 'Sample audio is synthesized from a prepared transcript'),
       trEmpty: trLines.length === 0 && !s.trInterim, trEmptyText: isMic ? 'Start listening, then speak. Lines appear as you talk.' : 'Press Play sample. Lines appear as they are spoken.',
       trLines, trInterim: s.trInterim, hasInterim: !!s.trInterim,
-      langOpts: D.langs, trLang: s.trLang, onTrLang: e => this.setState({ trLang: e.target.value }, () => { if (isMic || s.trIdx >= 0) this.ensureTr(); }),
+      langOpts: D.langs, trLangOpen: !!s.trLangOpen, trLangLabel: lang.label, trLangChev: s.trLangOpen ? 'rotate(180deg)' : 'none', trLangBorder: s.trLangOpen ? '#3FE0FF' : 'rgba(150,190,255,0.3)',
+      trLangToggle: e => { e.stopPropagation(); this.setState({ trLangOpen: !s.trLangOpen }); },
+      trLangItems: D.langs.map(l => { const on = l.value === s.trLang; return { label: l.label, on, tick: on ? 1 : 0, bg: on ? 'rgba(63,224,255,0.16)' : 'transparent', color: on ? '#FFFFFF' : '#C9D8F5', pick: e => { e.stopPropagation(); this.setState({ trLangOpen: false, trLang: l.value }, () => { if (isMic || s.trIdx >= 0) this.ensureTr(); }); } }; }),
+      trLang: s.trLang, onTrLang: e => this.setState({ trLang: e.target.value }, () => { if (isMic || s.trIdx >= 0) this.ensureTr(); }),
       trDir: lang.dir, trOut: outLines.map(t => ({ text: t })),
       trNote: s.trLoading ? 'Translating\u2026' : cache ? (cache.src === 'live' ? 'Translated live by Claude' : 'Prepared translation') : (!live && (isMic || !sample.lines[0][s.trLang]) ? 'Live translation is not connected. Prepared translations cover Arabic and Spanish samples.' : 'Translation appears as lines complete.')
     });
